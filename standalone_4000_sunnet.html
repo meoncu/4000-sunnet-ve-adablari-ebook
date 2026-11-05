@@ -6,35 +6,27 @@
   <meta name="theme-color" content="#fcf6ea">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — E-Kitap</title>
+  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — E-Kitap Okuyucu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <style>
 /* ==========================================================================
-   MEHÂFETULLÂH (ALLAH KORKUSU) - E-Book Reader Mobile Stylesheet
-   Designed for Mobile Screens, Tablets & Desktop
-   With Full Arabic Calligraphy & Turkish UTF-8 Typography Support
+   PEYGAMBER EFENDİMİZİN 4000 SÜNNET VE ÂDÂBLARI
+   Modern E-Kitap Okuyucu Stilleri (Mobil, Tablet & Masaüstü)
+   Tek Sayfa Kitap Modu + Sürekli Akış + 432 Sayfa Küçük Resim Galerisi
    ========================================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Scheherazade+New:wght@400;600;700&display=swap');
 
 :root {
   --font-serif: 'Merriweather', 'Lora', Georgia, 'Times New Roman', serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-arabic: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
-  
-  /* Active Font settings */
-  --reader-font: var(--font-serif);
-  --reader-font-size: 18px;
-  --reader-line-height: 1.85;
-  --reader-text-align: justify;
 
-  /* Theme Defaults (Sepya default) */
+  /* Temel Renkler (Varsayılan: Sepya) */
   --bg-primary: #fcf6ea;
   --bg-secondary: #f4ecda;
-  --bg-card: #f9f1e1;
+  --bg-card: #ffffff;
   --text-primary: #2b1f14;
   --text-secondary: #5e4b3c;
   --text-muted: #8b7355;
@@ -43,64 +35,62 @@
   --accent-glow: rgba(139, 58, 26, 0.15);
   --border-color: #e5d8be;
   --border-subtle: #eee3cb;
-  --header-bg: rgba(252, 246, 234, 0.95);
+  --header-bg: rgba(252, 246, 234, 0.96);
   --nav-bar-bg: rgba(244, 236, 218, 0.98);
-  --shadow-sm: 0 2px 8px rgba(43, 31, 20, 0.06);
-  --shadow-md: 0 4px 16px rgba(43, 31, 20, 0.1);
-  --shadow-lg: 0 8px 30px rgba(43, 31, 20, 0.15);
-  --selection-bg: #e2cfa7;
+  --shadow-sm: 0 2px 8px rgba(43, 31, 20, 0.08);
+  --shadow-md: 0 4px 16px rgba(43, 31, 20, 0.12);
+  --shadow-lg: 0 8px 30px rgba(43, 31, 20, 0.18);
+  --card-bg: #ffffff;
 }
 
 /* Gündüz (Açık Beyaz) */
 body[data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
   --bg-card: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
   --accent-color: #0369a1;
   --accent-hover: #0284c7;
-  --accent-glow: rgba(3, 105, 161, 0.12);
+  --accent-glow: rgba(3, 105, 161, 0.15);
   --border-color: #e2e8f0;
-  --border-subtle: #f1f5f9;
-  --header-bg: rgba(255, 255, 255, 0.95);
+  --border-subtle: #cbd5e1;
+  --header-bg: rgba(255, 255, 255, 0.96);
   --nav-bar-bg: rgba(248, 250, 252, 0.98);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --selection-bg: #bae6fd;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
 }
 
-/* Gece (Koyu Gri) */
+/* Gece (Koyu Gri/Mavi) */
 body[data-theme="dark"] {
-  --bg-primary: #18191c;
-  --bg-secondary: #222328;
-  --bg-card: #202127;
-  --text-primary: #e6e8eb;
-  --text-secondary: #a9b0ba;
-  --text-muted: #727a85;
-  --accent-color: #e29f56;
-  --accent-hover: #f0ae67;
-  --accent-glow: rgba(226, 159, 86, 0.2);
-  --border-color: #33363f;
-  --border-subtle: #292b33;
-  --header-bg: rgba(24, 25, 28, 0.95);
-  --nav-bar-bg: rgba(34, 35, 40, 0.98);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.7);
-  --selection-bg: #634320;
+  --bg-primary: #121418;
+  --bg-secondary: #1a1d24;
+  --bg-card: #1f232b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --accent-color: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-glow: rgba(245, 158, 11, 0.2);
+  --border-color: #2e3440;
+  --border-subtle: #242933;
+  --header-bg: rgba(18, 20, 24, 0.96);
+  --nav-bar-bg: rgba(26, 29, 36, 0.98);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* OLED (Simsiyah - Batarya Tasarrufu) */
+/* OLED (Simsiyah - Batarya Dostu) */
 body[data-theme="oled"] {
   --bg-primary: #000000;
   --bg-secondary: #0d0d0d;
-  --bg-card: #121212;
+  --bg-card: #141414;
   --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --text-muted: #666666;
+  --text-secondary: #cccccc;
+  --text-muted: #777777;
   --accent-color: #ff9800;
   --accent-hover: #ffac33;
   --accent-glow: rgba(255, 152, 0, 0.25);
@@ -111,7 +101,6 @@ body[data-theme="oled"] {
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.8);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
   --shadow-lg: 0 8px 30px rgba(0, 0, 0, 1);
-  --selection-bg: #4a3411;
 }
 
 * {
@@ -126,30 +115,24 @@ html, body {
   height: 100%;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--reader-font);
+  font-family: var(--font-sans);
   overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s, color 0.25s;
 }
 
-::selection {
-  background-color: var(--selection-bg);
-}
-
-/* Progress Bar */
+/* Okuma İlerleme Çubuğu */
 #readingProgressBar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 0%;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent-color), #f59e0b);
-  z-index: 1001;
+  width: 0%;
+  background: var(--accent-color);
+  z-index: 1100;
   transition: width 0.15s ease-out;
 }
 
-/* Header Bar */
+/* Üst Header */
 .reader-header {
   position: fixed;
   top: 0;
@@ -163,7 +146,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 12px;
   z-index: 1000;
   box-shadow: var(--shadow-sm);
 }
@@ -171,501 +154,374 @@ html, body {
 .header-left, .header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .header-center {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 8px;
-  transition: background 0.15s;
+  transition: background-color 0.2s;
+  max-width: 320px;
 }
 
-.header-center:active {
-  background: var(--bg-secondary);
+.header-center:hover {
+  background-color: var(--bg-secondary);
 }
 
 .page-indicator-badge {
   font-size: 13px;
   font-weight: 700;
   color: var(--accent-color);
-  background: var(--accent-glow);
-  padding: 2px 10px;
-  border-radius: 12px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .header-chapter-preview {
   font-size: 11px;
   color: var(--text-muted);
-  max-width: 220px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 1px;
+  max-width: 260px;
+}
+
+/* İkon Butonları */
+.icon-btn, .icon-btn-compact {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
 .icon-btn {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
   width: 38px;
   height: 38px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .icon-btn:hover {
   background-color: var(--bg-secondary);
-  border-color: var(--accent-color);
+  color: var(--accent-color);
 }
 
-.icon-btn:active {
-  transform: scale(0.94);
+.icon-btn-compact {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-/* Reader Main Content Container */
-.reader-viewport {
+.icon-btn-compact:hover {
+  background-color: var(--bg-secondary);
+  color: var(--accent-color);
+}
+
+/* Mod Seçici Sekmeler */
+.view-mode-selector {
+  display: flex;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+  margin-left: 6px;
+}
+
+.mode-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-tab-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mode-tab-btn:hover:not(.active) {
+  color: var(--text-primary);
+}
+
+/* Zoom Kontrolleri */
+.zoom-controls-group {
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 2px 6px;
+  gap: 4px;
+}
+
+.zoom-level-text {
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 34px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   1. TEK SAYFA OKUYUCU (SINGLE PAGE VIEW)
+   ========================================================================== */
+.single-page-reader {
   margin-top: 56px;
-  margin-bottom: 74px;
-  padding: 16px 14px 40px;
-  max-width: 760px;
+  margin-bottom: 64px;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  position: relative;
+}
+
+.page-nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 72px;
+  background: var(--header-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s;
+  opacity: 0.85;
+}
+
+.page-nav-arrow:hover {
+  opacity: 1;
+  background: var(--accent-color);
+  color: #ffffff;
+  border-color: var(--accent-color);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.page-nav-arrow.arrow-prev {
+  left: 14px;
+}
+
+.page-nav-arrow.arrow-next {
+  right: 14px;
+}
+
+.page-stage {
+  max-width: 860px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.active-page-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-out;
+}
+
+.page-top-info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.info-badge {
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.info-chapter {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.page-img-zoom-wrapper {
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  background: #fdfaf5;
+  padding: 6px;
+  max-height: calc(100vh - 170px);
+}
+
+body[data-theme="dark"] .page-img-zoom-wrapper,
+body[data-theme="oled"] .page-img-zoom-wrapper {
+  background: #121212;
+}
+
+.active-book-img {
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100vh - 190px);
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+  transform-origin: center top;
+  transition: transform 0.2s ease-out;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ==========================================================================
+   2. SÜREKLİ AKIŞ (SCROLL MODE)
+   ========================================================================== */
+.scroll-page-reader {
+  margin-top: 56px;
+  margin-bottom: 64px;
+  padding: 16px 12px 60px;
+}
+
+.scroll-container {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scroll-page-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.scroll-page-header {
+  padding: 8px 14px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.scroll-page-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   3. TÜM SAYFALAR GALERİSİ (GRID MODE - 432 SAYFA)
+   ========================================================================== */
+.grid-page-reader {
+  margin-top: 56px;
+  margin-bottom: 64px;
+  padding: 24px 16px 60px;
+  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Page Card Container */
-.page-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 24px 20px 30px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  transition: box-shadow 0.2s;
-}
-
-.page-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  font-size: 12px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.page-card-num {
-  font-weight: 700;
-  color: var(--accent-color);
-  background: var(--bg-secondary);
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-
-.page-card-body {
-  font-family: var(--reader-font);
-  font-size: var(--reader-font-size);
-  line-height: var(--reader-line-height);
-  text-align: var(--reader-text-align);
-  color: var(--text-primary);
-  word-break: break-word;
-}
-
-/* Typography elements */
-.book-paragraph {
-  margin-bottom: 1.25em;
-  text-indent: 1.5em;
-}
-
-/* Drop Cap on chapter opening */
-.page-card-body .topic-header-block + .book-paragraph::first-letter,
-.page-card-body > .book-paragraph:first-of-type::first-letter {
-  font-size: 2.7em;
-  float: left;
-  line-height: 0.85;
-  margin: 4px 8px 0 0;
-  color: var(--accent-color);
-  font-weight: bold;
-  font-family: var(--font-serif);
-}
-
-/* Topic Headers */
-.topic-header-block {
+.grid-header-bar {
   text-align: center;
-  margin: 28px 0 20px;
-  padding: 12px 0;
+  margin-bottom: 24px;
 }
 
-.topic-ornament {
-  font-size: 20px;
+.grid-header-bar h2 {
+  font-size: 22px;
   color: var(--accent-color);
-  opacity: 0.7;
   margin-bottom: 6px;
 }
 
-.topic-title {
-  font-size: 1.35em;
-  font-weight: 700;
-  color: var(--accent-color);
-  letter-spacing: 0.3px;
-  line-height: 1.3;
+.grid-header-bar p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.topic-line {
-  width: 60px;
-  height: 2px;
-  background: var(--accent-color);
-  opacity: 0.3;
-  margin: 10px auto 0;
-  border-radius: 2px;
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px;
+}
+
+.grid-thumb-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-thumb-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-color);
+  box-shadow: var(--shadow-md);
+}
+
+.grid-thumb-card.active-thumb {
+  border: 2px solid var(--accent-color);
+  outline: 2px solid var(--accent-glow);
+}
+
+.grid-thumb-img-wrapper {
+  width: 100%;
+  aspect-ratio: 0.72;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.grid-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.grid-thumb-footer {
+  padding: 6px;
+  text-align: center;
+  background: var(--bg-secondary);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-top: 1px solid var(--border-subtle);
 }
 
 /* ==========================================================================
-   ARABIC CALLIGRAPHY & AYAH CARDS
+   ALT GEZİNME VE SAYFA KAYDIRICI
    ========================================================================== */
-.ayah-container {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-right: 4px solid var(--accent-color);
-  border-radius: 12px;
-  padding: 20px 22px 14px;
-  margin: 24px 0 18px;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-}
-
-.arabic-text {
-  font-family: var(--font-arabic);
-  font-size: 1.65em;
-  line-height: 2.3;
-  color: var(--accent-color);
-  direction: rtl;
-  unicode-bidi: embed;
-  letter-spacing: 0.5px;
-  text-align: center;
-  margin-bottom: 10px;
-  word-spacing: 2px;
-}
-
-.ayah-badge {
-  display: inline-block;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  border-top: 1px dashed var(--border-subtle);
-  padding-top: 8px;
-  margin-top: 4px;
-}
-
-/* Khutba Calls (Ey cemaat!) */
-.khutba-callout {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-secondary);
-  border-left: 3px solid var(--accent-color);
-  padding: 8px 14px;
-  border-radius: 0 8px 8px 0;
-  margin: 18px 0 12px;
-  font-size: 0.95em;
-  color: var(--accent-color);
-}
-
-/* Footnotes */
-.footnote-box {
-  background: var(--bg-secondary);
-  border: 1px dashed var(--border-color);
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin-top: 18px;
-  font-size: 0.85em;
-  color: var(--text-secondary);
-}
-
-.fn-badge {
-  display: inline-block;
-  background: var(--accent-color);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 4px;
-  margin-right: 6px;
-}
-
-/* Cover Styling */
-.cover-container {
-  text-align: center;
-  padding: 20px 0;
-}
-
-.cover-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.book-cover-img {
-  width: 100%;
-  max-width: 280px;
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  margin-bottom: 24px;
-  border: 2px solid var(--border-color);
-}
-
-.kulliyat-badge {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--accent-color);
-  background: var(--accent-glow);
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 14px;
-  display: inline-block;
-}
-
-.book-main-title {
-  font-size: 2.2em;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: var(--accent-color);
-  margin-bottom: 6px;
-}
-
-.book-sub-title {
-  font-size: 1.25em;
-  letter-spacing: 3px;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-}
-
-.book-author {
-  font-size: 1.1em;
-  font-style: italic;
-  color: var(--text-primary);
-  margin-bottom: 14px;
-}
-
-.cover-divider {
-  color: var(--accent-color);
-  margin-bottom: 14px;
-  opacity: 0.6;
-}
-
-.book-publisher {
-  font-size: 0.88em;
-  color: var(--text-muted);
-}
-
-/* Empty / Divider leaves */
-.empty-leaf, .section-divider-leaf {
-  text-align: center;
-  padding: 40px 10px;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-.leaf-ornament {
-  display: block;
-  font-size: 26px;
-  color: var(--accent-color);
-  opacity: 0.4;
-  margin-bottom: 12px;
-}
-
-/* Künye */
-.kunye-card {
-  padding: 10px;
-}
-
-.kunye-title {
-  font-size: 1.15em;
-  font-weight: 700;
-  color: var(--accent-color);
-  text-align: center;
-  margin-bottom: 18px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 10px;
-}
-
-.kunye-row {
-  display: flex;
-  padding: 6px 0;
-  border-bottom: 1px dashed var(--border-subtle);
-  font-size: 0.9em;
-}
-
-.k-label {
-  width: 140px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.k-value {
-  flex: 1;
-  color: var(--text-primary);
-}
-
-/* Inner title */
-.inner-title-page {
-  text-align: center;
-  padding: 30px 10px;
-}
-
-.inner-ornament {
-  font-family: var(--font-arabic);
-  font-size: 32px;
-  color: var(--accent-color);
-  margin-bottom: 16px;
-  direction: rtl;
-}
-
-.author-prefix {
-  font-size: 0.9em;
-  color: var(--text-muted);
-}
-
-.inner-book-title {
-  font-size: 1.6em;
-  margin: 6px 0;
-  color: var(--text-primary);
-}
-
-.inner-honorific {
-  font-size: 0.9em;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-}
-
-.title-rule {
-  width: 80px;
-  height: 2px;
-  background: var(--accent-color);
-  margin: 16px auto;
-  opacity: 0.5;
-}
-
-.inner-work-title {
-  font-size: 1.8em;
-  color: var(--accent-color);
-  margin-bottom: 6px;
-}
-
-.inner-sub {
-  font-size: 1.1em;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-}
-
-.inner-city {
-  font-size: 0.85em;
-  color: var(--text-muted);
-}
-
-/* TOC In-Page View */
-.toc-view-card {
-  padding: 10px 0;
-}
-
-.toc-view-heading {
-  font-size: 1.2em;
-  color: var(--accent-color);
-  margin-bottom: 14px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 8px;
-}
-
-.toc-view-list {
-  list-style: none;
-}
-
-.toc-view-item {
-  margin-bottom: 8px;
-}
-
-.toc-link-item {
-  display: flex;
-  align-items: baseline;
-  text-decoration: none;
-  color: var(--text-primary);
-  font-size: 0.95em;
-  padding: 6px 4px;
-  border-radius: 6px;
-  transition: background 0.15s;
-}
-
-.toc-link-item:hover {
-  background: var(--bg-secondary);
-  color: var(--accent-color);
-}
-
-.toc-dots {
-  flex: 1;
-  border-bottom: 1px dotted var(--border-color);
-  margin: 0 8px;
-  min-width: 20px;
-}
-
-.toc-p {
-  font-weight: 700;
-  color: var(--accent-color);
-  font-size: 0.9em;
-}
-
-/* Catalog View */
-.catalog-card {
-  padding: 10px;
-}
-
-.catalog-heading {
-  text-align: center;
-  font-size: 1.2em;
-  color: var(--accent-color);
-  margin-bottom: 16px;
-}
-
-.cat-sub {
-  font-size: 0.85em;
-  color: var(--text-secondary);
-}
-
-.catalog-list {
-  padding-left: 24px;
-}
-
-.catalog-item {
-  padding: 6px 0;
-  border-bottom: 1px dashed var(--border-subtle);
-  font-size: 0.95em;
-}
-
-.catalog-footer {
-  margin-top: 16px;
-  text-align: center;
-  font-style: italic;
-  color: var(--text-muted);
-}
-
-/* Bottom Floating Navigation */
 .reader-bottom-nav {
   position: fixed;
   bottom: 0;
@@ -681,59 +537,74 @@ html, body {
   justify-content: space-between;
   padding: 0 16px;
   z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
 }
 
 .nav-page-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.15s;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.nav-page-btn:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-.nav-page-btn:not(:disabled):hover {
+.nav-page-btn:hover {
+  background: var(--accent-color);
+  color: #ffffff;
   border-color: var(--accent-color);
-  color: var(--accent-color);
+}
+
+.nav-jump-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  max-width: 380px;
+  margin: 0 16px;
 }
 
 .nav-jump-btn {
-  background: var(--accent-glow);
-  border: 1px solid var(--accent-color);
-  color: var(--accent-color);
+  background: transparent;
+  border: none;
   font-size: 13px;
   font-weight: 700;
-  padding: 8px 16px;
-  border-radius: 20px;
+  color: var(--accent-color);
   cursor: pointer;
 }
 
-/* Modals & Drawers */
-.drawer-backdrop {
+.bottom-slider {
+  width: 100%;
+  accent-color: var(--accent-color);
+  height: 5px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   ÇEKMECE VE MODALLAR (DRAWER & MODALS)
+   ========================================================================== */
+.drawer-backdrop, .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background-color: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   z-index: 2000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.drawer-backdrop.active {
+.drawer-backdrop.active, .modal-backdrop.active {
   opacity: 1;
   pointer-events: auto;
 }
@@ -742,14 +613,14 @@ html, body {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 85%;
-  max-width: 380px;
+  width: 340px;
+  max-width: 85vw;
   background: var(--bg-card);
-  z-index: 2001;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2100;
 }
 
 .drawer-panel.left {
@@ -774,392 +645,340 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: var(--bg-secondary);
 }
 
 .drawer-title {
-  font-size: 16px;
   font-weight: 700;
-  color: var(--accent-color);
+  color: var(--text-primary);
+  font-size: 15px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .drawer-body {
-  flex: 1;
+  padding: 14px;
   overflow-y: auto;
-  padding: 16px;
+  flex: 1;
 }
 
-/* TOC Search inside drawer */
 .toc-search-box {
   width: 100%;
-  padding: 10px 14px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  padding: 10px 12px;
   border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 14px;
   margin-bottom: 12px;
-}
-
-.toc-search-box:focus {
-  outline: none;
-  border-color: var(--accent-color);
+  font-size: 13.5px;
 }
 
 .toc-drawer-list {
   list-style: none;
-}
-
-.toc-drawer-item {
-  padding: 10px 12px;
-  border-radius: 8px;
-  margin-bottom: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-subtle);
-  transition: all 0.15s;
-}
-
-.toc-drawer-item:hover, .toc-drawer-item.active {
-  background: var(--bg-secondary);
-  color: var(--accent-color);
-}
-
-.toc-drawer-title {
-  font-size: 13.5px;
-  line-height: 1.35;
-  flex: 1;
-  padding-right: 10px;
-}
-
-.toc-drawer-page {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent-color);
-  background: var(--accent-glow);
-  padding: 2px 8px;
-  border-radius: 6px;
-}
-
-/* Settings Controls */
-.settings-section {
-  margin-bottom: 22px;
-}
-
-.settings-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  display: block;
-  font-weight: 700;
-}
-
-.theme-options-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.theme-card-btn {
-  background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 600;
-  transition: all 0.15s;
-}
-
-.theme-card-btn.active {
-  border-color: var(--accent-color);
-  background: var(--accent-glow);
-  color: var(--accent-color);
-}
-
-.theme-preview-dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 1px solid #aaa;
-}
-
-.font-size-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  background: var(--bg-secondary);
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-}
-
-.font-size-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.font-size-value {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--accent-color);
-}
-
-.font-family-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.font-family-btn {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.font-family-btn.active {
-  border-color: var(--accent-color);
-  background: var(--accent-glow);
-  color: var(--accent-color);
-}
-
-/* Jump Dialog */
-.modal-center-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 3000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.modal-center-backdrop.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 24px;
-  width: 100%;
-  max-width: 360px;
-  box-shadow: var(--shadow-lg);
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--accent-color);
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.jump-slider-container {
-  margin: 20px 0;
-  text-align: center;
-}
-
-.jump-page-number-display {
-  font-size: 34px;
-  font-weight: 800;
-  color: var(--accent-color);
-  margin-bottom: 4px;
-}
-
-.jump-page-title-preview {
-  font-size: 12px;
-  color: var(--text-muted);
-  min-height: 28px;
-  margin-bottom: 12px;
-}
-
-.jump-slider {
-  width: 100%;
-  accent-color: var(--accent-color);
-  height: 6px;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.jump-quick-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-.quick-jump-btn {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  font-size: 11px;
-  padding: 6px 2px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-secondary, .btn-primary {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-}
-
-.btn-secondary {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-}
-
-.btn-primary {
-  background: var(--accent-color);
-  border: none;
-  color: #ffffff;
-}
-
-/* Search Modal */
-.search-modal-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  width: 100%;
-  max-width: 500px;
-  max-height: 80vh;
   display: flex;
   flex-direction: column;
+  gap: 6px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--bg-primary);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.toc-item:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  transform: translateX(3px);
+}
+
+.toc-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  padding-right: 8px;
+}
+
+.toc-category-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  letter-spacing: 0.5px;
+}
+
+.toc-item-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.toc-page-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent-color);
+  background: var(--bg-secondary);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* Modal Kartı */
+.modal-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  width: 90%;
+  max-width: 520px;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-compact {
+  max-width: 420px;
+}
+
+.modal-large {
+  max-width: 720px;
+}
+
+.modal-header {
+  padding: 14px 18px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: 18px;
+  overflow-y: auto;
 }
 
 .search-input-wrapper {
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 14px;
+  margin-bottom: 16px;
+}
+
+.search-input-wrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 14.5px;
+  outline: none;
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 10px 14px;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.search-result-item:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.search-result-title {
+  font-weight: 700;
+  color: var(--accent-color);
+  font-size: 13.5px;
+  margin-bottom: 2px;
+}
+
+.search-result-snippet {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.search-hint {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  padding: 24px 0;
+}
+
+/* Sayfaya Atlama */
+.jump-slider-wrapper {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.jump-slider-val {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent-color);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.slider-input {
+  width: 100%;
+  accent-color: var(--accent-color);
+  height: 6px;
+}
+
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.jump-direct-input {
   display: flex;
   gap: 10px;
 }
 
-.search-input {
+.jump-direct-input input {
   flex: 1;
   padding: 10px 14px;
-  background: var(--bg-secondary);
+  border-radius: 8px;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 15px;
+  background: var(--bg-primary);
   color: var(--text-primary);
-}
-
-.search-results-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px 16px;
-}
-
-.search-result-item {
-  padding: 12px;
-  border-radius: 8px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-.search-result-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent-color);
-  margin-bottom: 4px;
-}
-
-.search-result-snippet {
-  font-size: 13.5px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-mark {
-  background-color: #fef08a;
-  color: #854d0e;
-  padding: 1px 3px;
-  border-radius: 3px;
+  font-size: 15px;
   font-weight: 600;
 }
 
-/* Responsive queries */
-@media (max-width: 480px) {
-  .page-card {
-    padding: 18px 14px 22px;
-    border-radius: 12px;
-  }
-  .header-chapter-preview {
-    max-width: 140px;
-  }
-  .book-main-title {
-    font-size: 1.8em;
-  }
-  .arabic-text {
-    font-size: 1.45em;
-    line-height: 2.1;
-  }
+.btn-primary {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent-color);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-/* ==========================================================================
-   MÜKERRER SAYFA VE RAPOR ÖZEL STİLLERİ
-   ========================================================================== */
-.modal-large {
-  max-width: 680px;
-  width: 95%;
+.btn-primary:hover {
+  background: var(--accent-hover);
 }
+
+/* Ayarlar & Tema Seçici */
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setting-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.theme-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.theme-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.theme-chip.active {
+  border-color: var(--accent-color);
+  background: var(--bg-secondary);
+}
+
+.theme-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.theme-sepia .theme-dot { background: #fcf6ea; }
+.theme-light .theme-dot { background: #ffffff; }
+.theme-dark .theme-dot { background: #18191c; }
+.theme-oled .theme-dot { background: #000000; }
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13.5px;
+}
+
+.info-box {
+  background: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* Mükerrer Tablo */
 .duplicate-report-body {
   font-family: var(--font-sans);
   line-height: 1.6;
 }
 .report-intro {
   margin-bottom: 16px;
-  font-size: 14.5px;
+  font-size: 14px;
   color: var(--text-primary);
 }
 .duplicate-table-wrapper {
@@ -1171,7 +990,7 @@ mark {
 .duplicate-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13.5px;
+  font-size: 13px;
 }
 .duplicate-table th, .duplicate-table td {
   padding: 10px 12px;
@@ -1202,11 +1021,44 @@ mark {
   font-size: 11px;
   font-weight: 600;
 }
+
+/* Filtreler */
 .page-contrast-filter {
   filter: contrast(1.15) brightness(0.98);
 }
 .page-eyecare-filter {
   filter: sepia(0.08) brightness(0.97);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+  .mode-text {
+    display: none;
+  }
+  .zoom-controls-group {
+    display: none;
+  }
+  .header-chapter-preview {
+    max-width: 140px;
+  }
+  .page-nav-arrow {
+    width: 38px;
+    height: 56px;
+  }
+  .page-nav-arrow.arrow-prev {
+    left: 4px;
+  }
+  .page-nav-arrow.arrow-next {
+    right: 4px;
+  }
+  .pages-grid {
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    gap: 8px;
+  }
 }
 
 </style>
@@ -1220,9 +1072,25 @@ mark {
   <!-- Üst Başlık ve Kontrol Çubuğu -->
   <header class="reader-header">
     <div class="header-left">
-      <button id="btnOpenTOC" class="icon-btn" aria-label="İçindekiler Fihristi" title="İçindekiler">
+      <button id="btnOpenTOC" class="icon-btn" aria-label="İçindekiler Fihristi" title="İçindekiler (31 Bölüm)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
+      
+      <!-- Görünüm Modu Seçici -->
+      <div class="view-mode-selector">
+        <button id="btnModeSingle" class="mode-tab-btn active" title="Sayfa Sayfa Oku (Kitap Modu)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+          <span class="mode-text">Sayfa Sayfa</span>
+        </button>
+        <button id="btnModeScroll" class="mode-tab-btn" title="Dikey Kaydırma Modu">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+          <span class="mode-text">Sürekli Akış</span>
+        </button>
+        <button id="btnModeGrid" class="mode-tab-btn" title="Tüm 432 Sayfayı Gör (Küçük Resim Dizini)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span class="mode-text">Tüm Sayfalar (432)</span>
+        </button>
+      </div>
     </div>
 
     <div class="header-center" id="headerCenterBtn" title="Sayfaya Git (1 - 432)">
@@ -1231,11 +1099,18 @@ mark {
     </div>
 
     <div class="header-right">
+      <!-- Zoom Kontrolleri -->
+      <div class="zoom-controls-group">
+        <button id="btnZoomOut" class="icon-btn-compact" title="Uzaklaştır">－</button>
+        <span id="zoomLevelText" class="zoom-level-text">100%</span>
+        <button id="btnZoomIn" class="icon-btn-compact" title="Yakınlaştır">＋</button>
+      </div>
+
       <button id="btnOpenSearch" class="icon-btn" aria-label="Kitapta Ara" title="Kitapta Ara">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
-      <button id="btnOpenDuplicates" class="icon-btn" aria-label="Mükerrer Sayfa Raporu" title="Mükerrer Sayfa Analizi">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+      <button id="btnOpenDuplicates" class="icon-btn" aria-label="Mükerrer Sayfa Raporu" title="Mükerrer Sayfa Raporu">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
       </button>
       <button id="btnOpenSettings" class="icon-btn" aria-label="Okuma Ayarları" title="Yazı & Tema">
         <span style="font-size:15px; font-weight:bold; font-family:serif;">Aa</span>
@@ -1243,25 +1118,75 @@ mark {
     </div>
   </header>
 
-  <!-- Okuma Alanı (432 Sayfa) -->
-  <main class="reader-viewport" id="readerViewport">
-    <!-- app.js tarafından doldurulacak -->
+  <!-- ======================================================== -->
+  <!-- 1. GÖRÜNÜM: TEK SAYFA OKUYUCU (VARSAYILAN / DEFAULT)     -->
+  <!-- ======================================================== -->
+  <main class="single-page-reader" id="singlePageReader">
+    
+    <!-- Sol Sayfa Çevirme Butonu -->
+    <button class="page-nav-arrow arrow-prev" id="arrowPrev" title="Önceki Sayfa (Sol Ok)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+
+    <!-- Sayfa Sahnesi -->
+    <div class="page-stage" id="pageStage">
+      <div class="active-page-card" id="activePageCard">
+        <div class="page-top-info-bar">
+          <span class="info-badge" id="singlePageHeaderBadge">Sayfa 1 / 432 (Kitap S. 5)</span>
+          <span class="info-chapter" id="singlePageChapterBadge">Kapak ve Giriş</span>
+        </div>
+        <div class="page-img-zoom-wrapper" id="pageImgZoomWrapper">
+          <img id="singlePageImg" src="pages/page_001.webp" alt="Sayfa 1" class="active-book-img" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Sağ Sayfa Çevirme Butonu -->
+    <button class="page-nav-arrow arrow-next" id="arrowNext" title="Sonraki Sayfa (Sağ Ok)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 2. GÖRÜNÜM: DİKEY SÜREKLİ AKIŞ (SCROLL MODE)             -->
+  <!-- ======================================================== -->
+  <main class="scroll-page-reader hidden" id="scrollPageReader">
+    <div class="scroll-container" id="scrollContainer">
+      <!-- JavaScript ile doldurulur -->
+    </div>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 3. GÖRÜNÜM: TÜM 432 SAYFA GALERİSİ (GRID MODE)           -->
+  <!-- ======================================================== -->
+  <main class="grid-page-reader hidden" id="gridPageReader">
+    <div class="grid-header-bar">
+      <h2>Tüm Sayfalar Dizini (432 Sayfa)</h2>
+      <p>Kitaptaki tüm sayfaları küçük resimler halinde inceleyebilir, istediğiniz sayfaya dokunarak doğrudan okumaya geçebilirsiniz.</p>
+    </div>
+    <div class="pages-grid" id="pagesGrid">
+      <!-- JavaScript ile 432 sayfa küçük resmi oluşturulur -->
+    </div>
   </main>
 
   <!-- Alt Gezinme Barı -->
   <nav class="reader-bottom-nav">
     <button class="nav-page-btn" id="btnPrevPage">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
       <span>Önceki</span>
     </button>
 
-    <button class="nav-jump-btn" id="btnJumpIndicator">
-      Sayfa 1 / 432
-    </button>
+    <div class="nav-jump-group">
+      <button class="nav-jump-btn" id="btnJumpIndicator">
+        Sayfa 1 / 432
+      </button>
+      <input type="range" id="bottomNavSlider" min="1" max="432" value="1" class="bottom-slider" title="Hızlı Sayfa Kaydırıcı">
+    </div>
 
     <button class="nav-page-btn" id="btnNextPage">
       <span>Sonraki</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
   </nav>
 
@@ -1270,13 +1195,13 @@ mark {
     <div class="drawer-panel left">
       <div class="drawer-header">
         <div class="drawer-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
           <span>İçindekiler (31 Bölüm)</span>
         </div>
         <button class="icon-btn" id="btnCloseTOC">✕</button>
       </div>
       <div class="drawer-body">
-        <input type="text" id="tocSearchInput" class="toc-search-box" placeholder="Konu veya başlık ara...">
+        <input type="text" id="tocSearchInput" class="toc-search-box" placeholder="Bölüm veya konu ara...">
         <ul class="toc-drawer-list" id="tocList">
           <!-- app.js tarafından doldurulacak -->
         </ul>
@@ -1371,18 +1296,10 @@ mark {
           </div>
         </div>
 
-        <div class="setting-group">
-          <label class="setting-label">Görünüm Genişliği</label>
-          <div class="btn-group-2">
-            <button class="toggle-btn active" id="btnWidthStandard">Standart</button>
-            <button class="toggle-btn" id="btnWidthFull">Tam Ekran</button>
-          </div>
-        </div>
-
         <div class="setting-group info-box">
           <p><strong>Peygamber Efendimizin 4000 Sünnet ve Âdâbları</strong></p>
           <p class="text-muted">Ahmed Gültekin & Nuri Dunay<br>Takriz: Ali Kara (Hocaefendi)</p>
-          <p class="text-muted" style="margin-top:6px; font-size:12px;">5 mükerrer sayfa elenerek 432 kusursuz sayfa olarak dijitalleştirilmiştir.</p>
+          <p class="text-muted" style="margin-top:6px; font-size:12px;">5 mükerrer sayfa ayıklanarak 432 kusursuz sayfa olarak hazırlanmıştır.</p>
         </div>
 
       </div>
@@ -1515,24 +1432,55 @@ window.BOOK_DATABASE = {
 
 /**
  * PEYGAMBER EFENDİMİZİN 4000 SÜNNET VE ÂDÂBLARI
- * Modern E-Kitap Okuyucu JavaScript Motoru
- * Toplam 432 Kusursuz Temiz Sayfa
+ * Yüksek Performanslı E-Kitap Okuyucu Motoru
+ * 432 Sayfa • Tek Sayfa Çevirme • Sürekli Akış • 432 Sayfa Görsel Galerisi
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const TOTAL_PAGES = 432;
   const db = window.BOOK_DATABASE || { chapters: [] };
 
+  // Durum Değişkenleri
+  let currentPage = parseInt(localStorage.getItem('sunnet4000_last_page'), 10) || 1;
+  if (currentPage < 1 || currentPage > TOTAL_PAGES) currentPage = 1;
+
+  let currentViewMode = 'single'; // 'single' | 'scroll' | 'grid'
+  let currentZoom = 100;
+
   // DOM Elemanları
-  const readerViewport = document.getElementById('readerViewport');
   const readingProgressBar = document.getElementById('readingProgressBar');
   const currentPageBadge = document.getElementById('currentPageBadge');
   const chapterPreview = document.getElementById('chapterPreview');
+  const headerCenterBtn = document.getElementById('headerCenterBtn');
+
+  // Mod Seçiciler
+  const btnModeSingle = document.getElementById('btnModeSingle');
+  const btnModeScroll = document.getElementById('btnModeScroll');
+  const btnModeGrid = document.getElementById('btnModeGrid');
+
+  const singlePageReader = document.getElementById('singlePageReader');
+  const scrollPageReader = document.getElementById('scrollPageReader');
+  const gridPageReader = document.getElementById('gridPageReader');
+  const scrollContainer = document.getElementById('scrollContainer');
+  const pagesGrid = document.getElementById('pagesGrid');
+
+  // Tek Sayfa Elemanları
+  const singlePageImg = document.getElementById('singlePageImg');
+  const singlePageHeaderBadge = document.getElementById('singlePageHeaderBadge');
+  const singlePageChapterBadge = document.getElementById('singlePageChapterBadge');
+  const arrowPrev = document.getElementById('arrowPrev');
+  const arrowNext = document.getElementById('arrowNext');
   const btnPrevPage = document.getElementById('btnPrevPage');
   const btnNextPage = document.getElementById('btnNextPage');
   const btnJumpIndicator = document.getElementById('btnJumpIndicator');
-  
-  // Çekmeceler ve Modallar
+  const bottomNavSlider = document.getElementById('bottomNavSlider');
+
+  // Zoom
+  const btnZoomIn = document.getElementById('btnZoomIn');
+  const btnZoomOut = document.getElementById('btnZoomOut');
+  const zoomLevelText = document.getElementById('zoomLevelText');
+
+  // Çekmeceler & Modallar
   const btnOpenTOC = document.getElementById('btnOpenTOC');
   const btnCloseTOC = document.getElementById('btnCloseTOC');
   const tocDrawerBackdrop = document.getElementById('tocDrawerBackdrop');
@@ -1545,7 +1493,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
   const searchResultsList = document.getElementById('searchResultsList');
 
-  const headerCenterBtn = document.getElementById('headerCenterBtn');
   const btnCloseJump = document.getElementById('btnCloseJump');
   const jumpModalBackdrop = document.getElementById('jumpModalBackdrop');
   const jumpRange = document.getElementById('jumpRange');
@@ -1559,133 +1506,257 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeChips = document.querySelectorAll('[data-set-theme]');
   const chkContrast = document.getElementById('chkContrast');
   const chkEyeCare = document.getElementById('chkEyeCare');
-  const btnWidthStandard = document.getElementById('btnWidthStandard');
-  const btnWidthFull = document.getElementById('btnWidthFull');
 
   const btnOpenDuplicates = document.getElementById('btnOpenDuplicates');
   const btnCloseDuplicates = document.getElementById('btnCloseDuplicates');
   const duplicatesModalBackdrop = document.getElementById('duplicatesModalBackdrop');
 
-  let currentPage = 1;
+  // 1. Yardımcı Fonksiyonlar
+  function padNum(n) {
+    return String(n).padStart(3, '0');
+  }
 
-  // 1. Sayfaları Viewport İçine Ekle (Lazy Loading ile)
-  function initPages() {
-    const fragment = document.createDocumentFragment();
+  function getPageImgUrl(n) {
+    return `pages/page_${padNum(n)}.webp`;
+  }
 
-    for (let i = 1; i <= TOTAL_PAGES; i++) {
-      const pageWrapper = document.createElement('article');
-      pageWrapper.className = 'page-container';
-      pageWrapper.id = `page-${i}`;
-      pageWrapper.dataset.pageNum = i;
+  function getPrintedPage(p) {
+    if (p === 1) return '5 (Takriz)';
+    if (p === 2) return '6 (Takdim)';
+    if (p === 3) return '7 (Sünnetin Önemi)';
+    return `~${Math.min(425, p + 4)}`;
+  }
 
-      const pagePad = String(i).padStart(3, '0');
-      const imgSrc = `pages/page_${pagePad}.webp`;
-
-      // Kitap sayfa numarası tahmini
-      let printedPageInfo = `Sayfa ${i}`;
-      if (i === 1) printedPageInfo = 'Kapak / Takriz (Kitap S. 5)';
-      else if (i === 2) printedPageInfo = 'Takdim (Kitap S. 6)';
-      else if (i === 3) printedPageInfo = 'Sünnetin Önemi (Kitap S. 7)';
-      else {
-        printedPageInfo = `PDF Sayfa ${i} • Kitap S. ~${Math.min(425, i + 4)}`;
+  function getChapterForPage(p) {
+    if (!db.chapters || db.chapters.length === 0) return { title: 'Kitap Sayfası', category: 'Bölüm' };
+    let active = db.chapters[0];
+    for (const ch of db.chapters) {
+      if (ch.page <= p) {
+        active = ch;
+      } else {
+        break;
       }
-
-      pageWrapper.innerHTML = `
-        <div class="page-meta-header">
-          <span class="page-num-pill">${printedPageInfo}</span>
-        </div>
-        <div class="page-image-wrapper">
-          <img 
-            src="${i <= 3 ? imgSrc : 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1000 1450\'%3E%3C/svg%3E'}" 
-            data-src="${imgSrc}" 
-            alt="Sayfa ${i}" 
-            class="page-image page-eyecare-filter" 
-            loading="${i <= 3 ? 'eager' : 'lazy'}"
-          />
-        </div>
-      `;
-
-      fragment.appendChild(pageWrapper);
     }
-
-    readerViewport.appendChild(fragment);
-    setupIntersectionObserver();
+    return active;
   }
 
-  // 2. Intersection Observer ile Lazy Loading ve Aktif Sayfa Tespiti
-  function setupIntersectionObserver() {
-    const imgObserver = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          if (img.dataset.src && img.src !== img.dataset.src) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-          }
-          obs.unobserve(img);
-        }
-      });
-    }, { rootMargin: '300px 0px' });
-
-    document.querySelectorAll('.page-image[data-src]').forEach(img => {
-      imgObserver.observe(img);
-    });
-
-    const pageObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const pageNum = parseInt(entry.target.dataset.pageNum, 10);
-          updateCurrentPage(pageNum);
-        }
-      });
-    }, { threshold: 0.35 });
-
-    document.querySelectorAll('.page-container').forEach(p => {
-      pageObserver.observe(p);
-    });
-  }
-
-  // 3. Aktif Sayfa ve Bölüm Göstergesi Güncellemesi
-  function updateCurrentPage(pageNum) {
-    if (pageNum === currentPage) return;
+  // 2. Sayfayı Güncelle (Single Mode)
+  function renderSinglePage(pageNum) {
+    if (pageNum < 1) pageNum = 1;
+    if (pageNum > TOTAL_PAGES) pageNum = TOTAL_PAGES;
     currentPage = pageNum;
 
-    // Badge ve Butonlar
+    // Resim Yükleme
+    const imgSrc = getPageImgUrl(currentPage);
+    singlePageImg.src = imgSrc;
+    singlePageImg.alt = `Sayfa ${currentPage}`;
+
+    // Üst Bilgiler
+    const ch = getChapterForPage(currentPage);
+    const printed = getPrintedPage(currentPage);
     const badgeText = `Sayfa ${currentPage} / ${TOTAL_PAGES}`;
+
     currentPageBadge.textContent = badgeText;
     btnJumpIndicator.textContent = badgeText;
+    chapterPreview.textContent = ch.title;
+    singlePageHeaderBadge.textContent = `${badgeText} (Kitap S. ${printed})`;
+    singlePageChapterBadge.textContent = `${ch.category} • ${ch.title}`;
 
-    // İlerleme Çubuğu
+    // İlerleme Çubuğu ve Slider
     const progress = ((currentPage - 1) / (TOTAL_PAGES - 1)) * 100;
     readingProgressBar.style.width = `${progress}%`;
+    bottomNavSlider.value = currentPage;
 
-    // Bölüm Başlığı
-    if (db.chapters && db.chapters.length > 0) {
-      let activeChapter = db.chapters[0];
-      for (const ch of db.chapters) {
-        if (ch.page <= currentPage) {
-          activeChapter = ch;
-        } else {
-          break;
-        }
-      }
-      chapterPreview.textContent = activeChapter.title;
+    // Buton Durumları
+    arrowPrev.style.opacity = currentPage === 1 ? '0.3' : '1';
+    arrowPrev.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+    arrowNext.style.opacity = currentPage === TOTAL_PAGES ? '0.3' : '1';
+    arrowNext.style.pointerEvents = currentPage === TOTAL_PAGES ? 'none' : 'auto';
+
+    // Ön Yükleme (Preload adjacent pages)
+    if (currentPage < TOTAL_PAGES) {
+      const nextImg = new Image();
+      nextImg.src = getPageImgUrl(currentPage + 1);
+    }
+    if (currentPage > 1) {
+      const prevImg = new Image();
+      prevImg.src = getPageImgUrl(currentPage - 1);
     }
 
-    // Son okunan sayfayı kaydet
+    // Grid'de aktif olanı işaretle
+    document.querySelectorAll('.grid-thumb-card').forEach(card => {
+      card.classList.toggle('active-thumb', parseInt(card.dataset.pageNum, 10) === currentPage);
+    });
+
+    // Kaydet
     localStorage.setItem('sunnet4000_last_page', currentPage);
   }
 
-  // 4. Belirli Sayfaya Kaydır
-  function scrollToPage(pageNum, smooth = true) {
-    const target = document.getElementById(`page-${pageNum}`);
-    if (target) {
-      target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
-      updateCurrentPage(pageNum);
+  // 3. Görünüm Modu Değiştirme
+  function setViewMode(mode) {
+    currentViewMode = mode;
+
+    btnModeSingle.classList.toggle('active', mode === 'single');
+    btnModeScroll.classList.toggle('active', mode === 'scroll');
+    btnModeGrid.classList.toggle('active', mode === 'grid');
+
+    singlePageReader.classList.toggle('hidden', mode !== 'single');
+    scrollPageReader.classList.toggle('hidden', mode !== 'scroll');
+    gridPageReader.classList.toggle('hidden', mode !== 'grid');
+
+    if (mode === 'single') {
+      renderSinglePage(currentPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (mode === 'scroll') {
+      initScrollMode();
+      scrollToScrollPage(currentPage);
+    } else if (mode === 'grid') {
+      initGridMode();
+      scrollGridToPage(currentPage);
     }
   }
 
-  // 5. İçindekiler Fihristini Oluştur
+  btnModeSingle.addEventListener('click', () => setViewMode('single'));
+  btnModeScroll.addEventListener('click', () => setViewMode('scroll'));
+  btnModeGrid.addEventListener('click', () => setViewMode('grid'));
+
+  // 4. Sürekli Akış Modunu Doldur
+  let scrollModeInitialized = false;
+  function initScrollMode() {
+    if (scrollModeInitialized) return;
+    scrollModeInitialized = true;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+      const card = document.createElement('div');
+      card.className = 'scroll-page-card';
+      card.id = `scroll-page-${i}`;
+      card.dataset.pageNum = i;
+
+      const ch = getChapterForPage(i);
+      const printed = getPrintedPage(i);
+
+      card.innerHTML = `
+        <div class="scroll-page-header">
+          <span style="font-weight:700; color:var(--accent-color);">Sayfa ${i} / ${TOTAL_PAGES} (Kitap S. ${printed})</span>
+          <span style="color:var(--text-muted);">${ch.title}</span>
+        </div>
+        <img 
+          class="scroll-page-img" 
+          src="${i <= 3 ? getPageImgUrl(i) : 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1000 1450\'%3E%3C/svg%3E'}" 
+          data-src="${getPageImgUrl(i)}" 
+          alt="Sayfa ${i}" 
+          loading="${i <= 3 ? 'eager' : 'lazy'}" 
+        />
+      `;
+      frag.appendChild(card);
+    }
+    scrollContainer.appendChild(frag);
+
+    // Scroll Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target.querySelector('img[data-src]');
+          if (img && img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          }
+          const p = parseInt(entry.target.dataset.pageNum, 10);
+          currentPage = p;
+          currentPageBadge.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+          btnJumpIndicator.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+          chapterPreview.textContent = getChapterForPage(p).title;
+          bottomNavSlider.value = p;
+          localStorage.setItem('sunnet4000_last_page', p);
+        }
+      });
+    }, { threshold: 0.25 });
+
+    scrollContainer.querySelectorAll('.scroll-page-card').forEach(c => observer.observe(c));
+  }
+
+  function scrollToScrollPage(p) {
+    setTimeout(() => {
+      const el = document.getElementById(`scroll-page-${p}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+
+  // 5. Grid Modunu Doldur (Tüm 432 Sayfa Küçük Resim Galerisi)
+  let gridModeInitialized = false;
+  function initGridMode() {
+    if (gridModeInitialized) return;
+    gridModeInitialized = true;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+      const thumb = document.createElement('div');
+      thumb.className = `grid-thumb-card ${i === currentPage ? 'active-thumb' : ''}`;
+      thumb.dataset.pageNum = i;
+      thumb.id = `thumb-${i}`;
+
+      thumb.innerHTML = `
+        <div class="grid-thumb-img-wrapper">
+          <img class="grid-thumb-img" src="${getPageImgUrl(i)}" alt="Sayfa ${i}" loading="lazy" />
+        </div>
+        <div class="grid-thumb-footer">
+          Sayfa ${i}
+        </div>
+      `;
+
+      thumb.addEventListener('click', () => {
+        currentPage = i;
+        setViewMode('single');
+      });
+
+      frag.appendChild(thumb);
+    }
+    pagesGrid.appendChild(frag);
+  }
+
+  function scrollGridToPage(p) {
+    setTimeout(() => {
+      const el = document.getElementById(`thumb-${p}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 80);
+  }
+
+  // 6. Sayfa Atlama ve Gezinme
+  function goToPage(p) {
+    if (p < 1) p = 1;
+    if (p > TOTAL_PAGES) p = TOTAL_PAGES;
+    currentPage = p;
+
+    if (currentViewMode === 'single') {
+      renderSinglePage(p);
+    } else if (currentViewMode === 'scroll') {
+      scrollToScrollPage(p);
+    } else {
+      scrollGridToPage(p);
+    }
+  }
+
+  arrowPrev.addEventListener('click', () => goToPage(currentPage - 1));
+  arrowNext.addEventListener('click', () => goToPage(currentPage + 1));
+  btnPrevPage.addEventListener('click', () => goToPage(currentPage - 1));
+  btnNextPage.addEventListener('click', () => goToPage(currentPage + 1));
+
+  bottomNavSlider.addEventListener('input', (e) => {
+    goToPage(parseInt(e.target.value, 10));
+  });
+
+  // 7. Zoom Kontrolleri
+  function applyZoom(delta) {
+    currentZoom = Math.min(220, Math.max(70, currentZoom + delta));
+    zoomLevelText.textContent = `${currentZoom}%`;
+    singlePageImg.style.transform = `scale(${currentZoom / 100})`;
+  }
+
+  btnZoomIn.addEventListener('click', () => applyZoom(20));
+  btnZoomOut.addEventListener('click', () => applyZoom(-20));
+
+  // 8. İçindekiler Fihristini Oluştur
   function buildTOC() {
     tocList.innerHTML = '';
     const chapters = db.chapters || [];
@@ -1701,23 +1772,21 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="toc-page-pill">S. ${ch.page}</div>
       `;
       li.addEventListener('click', () => {
-        scrollToPage(ch.page);
+        goToPage(ch.page);
         closeAllModals();
       });
       tocList.appendChild(li);
     });
   }
 
-  // TOC Arama
   tocSearchInput.addEventListener('input', (e) => {
     const q = e.target.value.toLowerCase().trim();
     document.querySelectorAll('.toc-item').forEach(item => {
-      const text = item.textContent.toLowerCase();
-      item.style.display = text.includes(q) ? 'flex' : 'none';
+      item.style.display = item.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
     });
   });
 
-  // 6. Genel Arama Fonksiyonu
+  // 9. Genel Arama
   function handleSearch(query) {
     const q = query.toLowerCase().trim();
     if (!q) {
@@ -1725,7 +1794,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Sayfa numarası araması
     const num = parseInt(q, 10);
     if (!isNaN(num) && num >= 1 && num <= TOTAL_PAGES) {
       searchResultsList.innerHTML = `
@@ -1734,37 +1802,34 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="search-result-snippet">Kitapta doğrudan ${num}. sayfayı görüntülemek için dokunun.</div>
         </div>
       `;
-      attachSearchResultClick();
+      attachSearchClicks();
       return;
     }
 
-    // Başlık ve Konu Arama
-    const chapters = db.chapters || [];
-    const matches = chapters.filter(ch => 
-      ch.title.toLowerCase().includes(q) || 
+    const matches = (db.chapters || []).filter(ch =>
+      ch.title.toLowerCase().includes(q) ||
       (ch.category && ch.category.toLowerCase().includes(q))
     );
 
     if (matches.length === 0) {
-      searchResultsList.innerHTML = `<div class="search-hint">"${query}" ile eşleşen bölüm başlığı bulunamadı.<br><small>Farklı bir anahtar kelime deneyebilirsiniz (örn: yemek, namaz, uyku, abdest).</small></div>`;
+      searchResultsList.innerHTML = `<div class="search-hint">"${query}" ile eşleşen başlık bulunamadı.<br><small>Farklı bir kelime deneyin (örn: yemek, namaz, uyku, abdest).</small></div>`;
       return;
     }
 
     searchResultsList.innerHTML = matches.map(ch => `
       <div class="search-result-item" data-page="${ch.page}">
         <div class="search-result-title">${ch.title}</div>
-        <div class="search-result-snippet">${ch.category} • Başlangıç Sayfası: <strong>${ch.page}</strong> (Kitap S. ${ch.printed_page || ch.page})</div>
+        <div class="search-result-snippet">${ch.category} • Sayfa: <strong>${ch.page}</strong> (Kitap S. ${ch.printed_page || ch.page})</div>
       </div>
     `).join('');
 
-    attachSearchResultClick();
+    attachSearchClicks();
   }
 
-  function attachSearchResultClick() {
+  function attachSearchClicks() {
     searchResultsList.querySelectorAll('.search-result-item').forEach(item => {
       item.addEventListener('click', () => {
-        const page = parseInt(item.dataset.page, 10);
-        scrollToPage(page);
+        goToPage(parseInt(item.dataset.page, 10));
         closeAllModals();
       });
     });
@@ -1772,7 +1837,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
 
-  // 7. Modalları ve Çekmeceleri Yönet
+  // 10. Modalları Yönet
   function closeAllModals() {
     tocDrawerBackdrop.classList.remove('active');
     searchModalBackdrop.classList.remove('active');
@@ -1781,7 +1846,6 @@ document.addEventListener('DOMContentLoaded', () => {
     duplicatesModalBackdrop.classList.remove('active');
   }
 
-  // Buton Tıklamaları
   btnOpenTOC.addEventListener('click', () => tocDrawerBackdrop.classList.add('active'));
   btnCloseTOC.addEventListener('click', closeAllModals);
 
@@ -1791,16 +1855,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   btnCloseSearch.addEventListener('click', closeAllModals);
 
-  headerCenterBtn.addEventListener('click', openJumpModal);
-  btnJumpIndicator.addEventListener('click', openJumpModal);
-  btnCloseJump.addEventListener('click', closeAllModals);
-
   function openJumpModal() {
     jumpRange.value = currentPage;
     jumpSliderVal.textContent = currentPage;
     jumpDirectNum.value = currentPage;
     jumpModalBackdrop.classList.add('active');
   }
+
+  headerCenterBtn.addEventListener('click', openJumpModal);
+  btnJumpIndicator.addEventListener('click', openJumpModal);
+  btnCloseJump.addEventListener('click', closeAllModals);
 
   jumpRange.addEventListener('input', (e) => {
     jumpSliderVal.textContent = e.target.value;
@@ -1810,7 +1874,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnConfirmJump.addEventListener('click', () => {
     const val = parseInt(jumpDirectNum.value || jumpRange.value, 10);
     if (!isNaN(val) && val >= 1 && val <= TOTAL_PAGES) {
-      scrollToPage(val);
+      goToPage(val);
       closeAllModals();
     }
   });
@@ -1821,23 +1885,13 @@ document.addEventListener('DOMContentLoaded', () => {
   btnOpenDuplicates.addEventListener('click', () => duplicatesModalBackdrop.classList.add('active'));
   btnCloseDuplicates.addEventListener('click', closeAllModals);
 
-  // Backdrop tıklamasıyla kapatma
   [tocDrawerBackdrop, searchModalBackdrop, jumpModalBackdrop, settingsDrawerBackdrop, duplicatesModalBackdrop].forEach(b => {
     b.addEventListener('click', (e) => {
       if (e.target === b) closeAllModals();
     });
   });
 
-  // 8. Önceki / Sonraki Sayfa Butonları
-  btnPrevPage.addEventListener('click', () => {
-    if (currentPage > 1) scrollToPage(currentPage - 1);
-  });
-
-  btnNextPage.addEventListener('click', () => {
-    if (currentPage < TOTAL_PAGES) scrollToPage(currentPage + 1);
-  });
-
-  // 9. Tema Seçimi
+  // 11. Tema Seçimi
   themeChips.forEach(chip => {
     chip.addEventListener('click', () => {
       themeChips.forEach(c => c.classList.remove('active'));
@@ -1848,7 +1902,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Kayıtlı tema yükleme
   const savedTheme = localStorage.getItem('sunnet4000_theme') || 'sepya';
   document.body.setAttribute('data-theme', savedTheme);
   const activeChip = document.querySelector(`[data-set-theme="${savedTheme}"]`);
@@ -1859,54 +1912,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Filtreler
   chkContrast.addEventListener('change', (e) => {
-    document.querySelectorAll('.page-image').forEach(img => {
-      img.classList.toggle('page-contrast-filter', e.target.checked);
-    });
+    singlePageImg.classList.toggle('page-contrast-filter', e.target.checked);
   });
 
   chkEyeCare.addEventListener('change', (e) => {
-    document.querySelectorAll('.page-image').forEach(img => {
-      img.classList.toggle('page-eyecare-filter', e.target.checked);
-    });
+    singlePageImg.classList.toggle('page-eyecare-filter', e.target.checked);
   });
 
-  // Genişlik
-  btnWidthFull.addEventListener('click', () => {
-    btnWidthFull.classList.add('active');
-    btnWidthStandard.classList.remove('active');
-    readerViewport.classList.add('full-width');
-  });
-
-  btnWidthStandard.addEventListener('click', () => {
-    btnWidthStandard.classList.add('active');
-    btnWidthFull.classList.remove('active');
-    readerViewport.classList.remove('full-width');
-  });
-
-  // 10. Klavye Kısayolları
+  // 12. Klavye ve Dokunma Kısayolları
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeAllModals();
-    } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
-      if (currentPage < TOTAL_PAGES) scrollToPage(currentPage + 1);
-    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      if (currentPage > 1) scrollToPage(currentPage - 1);
-    } else if (e.key === 'Home') {
-      scrollToPage(1);
-    } else if (e.key === 'End') {
-      scrollToPage(TOTAL_PAGES);
-    }
+    if (e.key === 'Escape') closeAllModals();
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') goToPage(currentPage + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') goToPage(currentPage - 1);
+    if (e.key === 'Home') goToPage(1);
+    if (e.key === 'End') goToPage(TOTAL_PAGES);
   });
+
+  // Mobil Kaydırma (Swipe)
+  let touchStartX = 0;
+  let touchEndX = 0;
+  singlePageReader.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  singlePageReader.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) goToPage(currentPage + 1); // Sağa kaydırma -> sonraki
+      else goToPage(currentPage - 1); // Sola kaydırma -> önceki
+    }
+  }, { passive: true });
 
   // Başlangıç
-  initPages();
   buildTOC();
-
-  // Son kalınan sayfaya git
-  const lastPage = parseInt(localStorage.getItem('sunnet4000_last_page'), 10);
-  if (lastPage && lastPage > 1 && lastPage <= TOTAL_PAGES) {
-    setTimeout(() => scrollToPage(lastPage, false), 100);
-  }
+  renderSinglePage(currentPage);
 });
 
 </script>

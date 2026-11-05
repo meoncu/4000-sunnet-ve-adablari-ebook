@@ -1,23 +1,54 @@
 /**
  * PEYGAMBER EFENDİMİZİN 4000 SÜNNET VE ÂDÂBLARI
- * Modern E-Kitap Okuyucu JavaScript Motoru
- * Toplam 432 Kusursuz Temiz Sayfa
+ * Yüksek Performanslı E-Kitap Okuyucu Motoru
+ * 432 Sayfa • Tek Sayfa Çevirme • Sürekli Akış • 432 Sayfa Görsel Galerisi
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const TOTAL_PAGES = 432;
   const db = window.BOOK_DATABASE || { chapters: [] };
 
+  // Durum Değişkenleri
+  let currentPage = parseInt(localStorage.getItem('sunnet4000_last_page'), 10) || 1;
+  if (currentPage < 1 || currentPage > TOTAL_PAGES) currentPage = 1;
+
+  let currentViewMode = 'single'; // 'single' | 'scroll' | 'grid'
+  let currentZoom = 100;
+
   // DOM Elemanları
-  const readerViewport = document.getElementById('readerViewport');
   const readingProgressBar = document.getElementById('readingProgressBar');
   const currentPageBadge = document.getElementById('currentPageBadge');
   const chapterPreview = document.getElementById('chapterPreview');
+  const headerCenterBtn = document.getElementById('headerCenterBtn');
+
+  // Mod Seçiciler
+  const btnModeSingle = document.getElementById('btnModeSingle');
+  const btnModeScroll = document.getElementById('btnModeScroll');
+  const btnModeGrid = document.getElementById('btnModeGrid');
+
+  const singlePageReader = document.getElementById('singlePageReader');
+  const scrollPageReader = document.getElementById('scrollPageReader');
+  const gridPageReader = document.getElementById('gridPageReader');
+  const scrollContainer = document.getElementById('scrollContainer');
+  const pagesGrid = document.getElementById('pagesGrid');
+
+  // Tek Sayfa Elemanları
+  const singlePageImg = document.getElementById('singlePageImg');
+  const singlePageHeaderBadge = document.getElementById('singlePageHeaderBadge');
+  const singlePageChapterBadge = document.getElementById('singlePageChapterBadge');
+  const arrowPrev = document.getElementById('arrowPrev');
+  const arrowNext = document.getElementById('arrowNext');
   const btnPrevPage = document.getElementById('btnPrevPage');
   const btnNextPage = document.getElementById('btnNextPage');
   const btnJumpIndicator = document.getElementById('btnJumpIndicator');
-  
-  // Çekmeceler ve Modallar
+  const bottomNavSlider = document.getElementById('bottomNavSlider');
+
+  // Zoom
+  const btnZoomIn = document.getElementById('btnZoomIn');
+  const btnZoomOut = document.getElementById('btnZoomOut');
+  const zoomLevelText = document.getElementById('zoomLevelText');
+
+  // Çekmeceler & Modallar
   const btnOpenTOC = document.getElementById('btnOpenTOC');
   const btnCloseTOC = document.getElementById('btnCloseTOC');
   const tocDrawerBackdrop = document.getElementById('tocDrawerBackdrop');
@@ -30,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
   const searchResultsList = document.getElementById('searchResultsList');
 
-  const headerCenterBtn = document.getElementById('headerCenterBtn');
   const btnCloseJump = document.getElementById('btnCloseJump');
   const jumpModalBackdrop = document.getElementById('jumpModalBackdrop');
   const jumpRange = document.getElementById('jumpRange');
@@ -44,133 +74,257 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeChips = document.querySelectorAll('[data-set-theme]');
   const chkContrast = document.getElementById('chkContrast');
   const chkEyeCare = document.getElementById('chkEyeCare');
-  const btnWidthStandard = document.getElementById('btnWidthStandard');
-  const btnWidthFull = document.getElementById('btnWidthFull');
 
   const btnOpenDuplicates = document.getElementById('btnOpenDuplicates');
   const btnCloseDuplicates = document.getElementById('btnCloseDuplicates');
   const duplicatesModalBackdrop = document.getElementById('duplicatesModalBackdrop');
 
-  let currentPage = 1;
+  // 1. Yardımcı Fonksiyonlar
+  function padNum(n) {
+    return String(n).padStart(3, '0');
+  }
 
-  // 1. Sayfaları Viewport İçine Ekle (Lazy Loading ile)
-  function initPages() {
-    const fragment = document.createDocumentFragment();
+  function getPageImgUrl(n) {
+    return `pages/page_${padNum(n)}.webp`;
+  }
 
-    for (let i = 1; i <= TOTAL_PAGES; i++) {
-      const pageWrapper = document.createElement('article');
-      pageWrapper.className = 'page-container';
-      pageWrapper.id = `page-${i}`;
-      pageWrapper.dataset.pageNum = i;
+  function getPrintedPage(p) {
+    if (p === 1) return '5 (Takriz)';
+    if (p === 2) return '6 (Takdim)';
+    if (p === 3) return '7 (Sünnetin Önemi)';
+    return `~${Math.min(425, p + 4)}`;
+  }
 
-      const pagePad = String(i).padStart(3, '0');
-      const imgSrc = `pages/page_${pagePad}.webp`;
-
-      // Kitap sayfa numarası tahmini
-      let printedPageInfo = `Sayfa ${i}`;
-      if (i === 1) printedPageInfo = 'Kapak / Takriz (Kitap S. 5)';
-      else if (i === 2) printedPageInfo = 'Takdim (Kitap S. 6)';
-      else if (i === 3) printedPageInfo = 'Sünnetin Önemi (Kitap S. 7)';
-      else {
-        printedPageInfo = `PDF Sayfa ${i} • Kitap S. ~${Math.min(425, i + 4)}`;
+  function getChapterForPage(p) {
+    if (!db.chapters || db.chapters.length === 0) return { title: 'Kitap Sayfası', category: 'Bölüm' };
+    let active = db.chapters[0];
+    for (const ch of db.chapters) {
+      if (ch.page <= p) {
+        active = ch;
+      } else {
+        break;
       }
-
-      pageWrapper.innerHTML = `
-        <div class="page-meta-header">
-          <span class="page-num-pill">${printedPageInfo}</span>
-        </div>
-        <div class="page-image-wrapper">
-          <img 
-            src="${i <= 3 ? imgSrc : 'data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 1000 1450\\'%3E%3C/svg%3E'}" 
-            data-src="${imgSrc}" 
-            alt="Sayfa ${i}" 
-            class="page-image page-eyecare-filter" 
-            loading="${i <= 3 ? 'eager' : 'lazy'}"
-          />
-        </div>
-      `;
-
-      fragment.appendChild(pageWrapper);
     }
-
-    readerViewport.appendChild(fragment);
-    setupIntersectionObserver();
+    return active;
   }
 
-  // 2. Intersection Observer ile Lazy Loading ve Aktif Sayfa Tespiti
-  function setupIntersectionObserver() {
-    const imgObserver = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          if (img.dataset.src && img.src !== img.dataset.src) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-          }
-          obs.unobserve(img);
-        }
-      });
-    }, { rootMargin: '300px 0px' });
-
-    document.querySelectorAll('.page-image[data-src]').forEach(img => {
-      imgObserver.observe(img);
-    });
-
-    const pageObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const pageNum = parseInt(entry.target.dataset.pageNum, 10);
-          updateCurrentPage(pageNum);
-        }
-      });
-    }, { threshold: 0.35 });
-
-    document.querySelectorAll('.page-container').forEach(p => {
-      pageObserver.observe(p);
-    });
-  }
-
-  // 3. Aktif Sayfa ve Bölüm Göstergesi Güncellemesi
-  function updateCurrentPage(pageNum) {
-    if (pageNum === currentPage) return;
+  // 2. Sayfayı Güncelle (Single Mode)
+  function renderSinglePage(pageNum) {
+    if (pageNum < 1) pageNum = 1;
+    if (pageNum > TOTAL_PAGES) pageNum = TOTAL_PAGES;
     currentPage = pageNum;
 
-    // Badge ve Butonlar
+    // Resim Yükleme
+    const imgSrc = getPageImgUrl(currentPage);
+    singlePageImg.src = imgSrc;
+    singlePageImg.alt = `Sayfa ${currentPage}`;
+
+    // Üst Bilgiler
+    const ch = getChapterForPage(currentPage);
+    const printed = getPrintedPage(currentPage);
     const badgeText = `Sayfa ${currentPage} / ${TOTAL_PAGES}`;
+
     currentPageBadge.textContent = badgeText;
     btnJumpIndicator.textContent = badgeText;
+    chapterPreview.textContent = ch.title;
+    singlePageHeaderBadge.textContent = `${badgeText} (Kitap S. ${printed})`;
+    singlePageChapterBadge.textContent = `${ch.category} • ${ch.title}`;
 
-    // İlerleme Çubuğu
+    // İlerleme Çubuğu ve Slider
     const progress = ((currentPage - 1) / (TOTAL_PAGES - 1)) * 100;
     readingProgressBar.style.width = `${progress}%`;
+    bottomNavSlider.value = currentPage;
 
-    // Bölüm Başlığı
-    if (db.chapters && db.chapters.length > 0) {
-      let activeChapter = db.chapters[0];
-      for (const ch of db.chapters) {
-        if (ch.page <= currentPage) {
-          activeChapter = ch;
-        } else {
-          break;
-        }
-      }
-      chapterPreview.textContent = activeChapter.title;
+    // Buton Durumları
+    arrowPrev.style.opacity = currentPage === 1 ? '0.3' : '1';
+    arrowPrev.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+    arrowNext.style.opacity = currentPage === TOTAL_PAGES ? '0.3' : '1';
+    arrowNext.style.pointerEvents = currentPage === TOTAL_PAGES ? 'none' : 'auto';
+
+    // Ön Yükleme (Preload adjacent pages)
+    if (currentPage < TOTAL_PAGES) {
+      const nextImg = new Image();
+      nextImg.src = getPageImgUrl(currentPage + 1);
+    }
+    if (currentPage > 1) {
+      const prevImg = new Image();
+      prevImg.src = getPageImgUrl(currentPage - 1);
     }
 
-    // Son okunan sayfayı kaydet
+    // Grid'de aktif olanı işaretle
+    document.querySelectorAll('.grid-thumb-card').forEach(card => {
+      card.classList.toggle('active-thumb', parseInt(card.dataset.pageNum, 10) === currentPage);
+    });
+
+    // Kaydet
     localStorage.setItem('sunnet4000_last_page', currentPage);
   }
 
-  // 4. Belirli Sayfaya Kaydır
-  function scrollToPage(pageNum, smooth = true) {
-    const target = document.getElementById(`page-${pageNum}`);
-    if (target) {
-      target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
-      updateCurrentPage(pageNum);
+  // 3. Görünüm Modu Değiştirme
+  function setViewMode(mode) {
+    currentViewMode = mode;
+
+    btnModeSingle.classList.toggle('active', mode === 'single');
+    btnModeScroll.classList.toggle('active', mode === 'scroll');
+    btnModeGrid.classList.toggle('active', mode === 'grid');
+
+    singlePageReader.classList.toggle('hidden', mode !== 'single');
+    scrollPageReader.classList.toggle('hidden', mode !== 'scroll');
+    gridPageReader.classList.toggle('hidden', mode !== 'grid');
+
+    if (mode === 'single') {
+      renderSinglePage(currentPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (mode === 'scroll') {
+      initScrollMode();
+      scrollToScrollPage(currentPage);
+    } else if (mode === 'grid') {
+      initGridMode();
+      scrollGridToPage(currentPage);
     }
   }
 
-  // 5. İçindekiler Fihristini Oluştur
+  btnModeSingle.addEventListener('click', () => setViewMode('single'));
+  btnModeScroll.addEventListener('click', () => setViewMode('scroll'));
+  btnModeGrid.addEventListener('click', () => setViewMode('grid'));
+
+  // 4. Sürekli Akış Modunu Doldur
+  let scrollModeInitialized = false;
+  function initScrollMode() {
+    if (scrollModeInitialized) return;
+    scrollModeInitialized = true;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+      const card = document.createElement('div');
+      card.className = 'scroll-page-card';
+      card.id = `scroll-page-${i}`;
+      card.dataset.pageNum = i;
+
+      const ch = getChapterForPage(i);
+      const printed = getPrintedPage(i);
+
+      card.innerHTML = `
+        <div class="scroll-page-header">
+          <span style="font-weight:700; color:var(--accent-color);">Sayfa ${i} / ${TOTAL_PAGES} (Kitap S. ${printed})</span>
+          <span style="color:var(--text-muted);">${ch.title}</span>
+        </div>
+        <img 
+          class="scroll-page-img" 
+          src="${i <= 3 ? getPageImgUrl(i) : 'data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 1000 1450\\'%3E%3C/svg%3E'}" 
+          data-src="${getPageImgUrl(i)}" 
+          alt="Sayfa ${i}" 
+          loading="${i <= 3 ? 'eager' : 'lazy'}" 
+        />
+      `;
+      frag.appendChild(card);
+    }
+    scrollContainer.appendChild(frag);
+
+    // Scroll Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target.querySelector('img[data-src]');
+          if (img && img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          }
+          const p = parseInt(entry.target.dataset.pageNum, 10);
+          currentPage = p;
+          currentPageBadge.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+          btnJumpIndicator.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+          chapterPreview.textContent = getChapterForPage(p).title;
+          bottomNavSlider.value = p;
+          localStorage.setItem('sunnet4000_last_page', p);
+        }
+      });
+    }, { threshold: 0.25 });
+
+    scrollContainer.querySelectorAll('.scroll-page-card').forEach(c => observer.observe(c));
+  }
+
+  function scrollToScrollPage(p) {
+    setTimeout(() => {
+      const el = document.getElementById(`scroll-page-${p}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+
+  // 5. Grid Modunu Doldur (Tüm 432 Sayfa Küçük Resim Galerisi)
+  let gridModeInitialized = false;
+  function initGridMode() {
+    if (gridModeInitialized) return;
+    gridModeInitialized = true;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+      const thumb = document.createElement('div');
+      thumb.className = `grid-thumb-card ${i === currentPage ? 'active-thumb' : ''}`;
+      thumb.dataset.pageNum = i;
+      thumb.id = `thumb-${i}`;
+
+      thumb.innerHTML = `
+        <div class="grid-thumb-img-wrapper">
+          <img class="grid-thumb-img" src="${getPageImgUrl(i)}" alt="Sayfa ${i}" loading="lazy" />
+        </div>
+        <div class="grid-thumb-footer">
+          Sayfa ${i}
+        </div>
+      `;
+
+      thumb.addEventListener('click', () => {
+        currentPage = i;
+        setViewMode('single');
+      });
+
+      frag.appendChild(thumb);
+    }
+    pagesGrid.appendChild(frag);
+  }
+
+  function scrollGridToPage(p) {
+    setTimeout(() => {
+      const el = document.getElementById(`thumb-${p}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 80);
+  }
+
+  // 6. Sayfa Atlama ve Gezinme
+  function goToPage(p) {
+    if (p < 1) p = 1;
+    if (p > TOTAL_PAGES) p = TOTAL_PAGES;
+    currentPage = p;
+
+    if (currentViewMode === 'single') {
+      renderSinglePage(p);
+    } else if (currentViewMode === 'scroll') {
+      scrollToScrollPage(p);
+    } else {
+      scrollGridToPage(p);
+    }
+  }
+
+  arrowPrev.addEventListener('click', () => goToPage(currentPage - 1));
+  arrowNext.addEventListener('click', () => goToPage(currentPage + 1));
+  btnPrevPage.addEventListener('click', () => goToPage(currentPage - 1));
+  btnNextPage.addEventListener('click', () => goToPage(currentPage + 1));
+
+  bottomNavSlider.addEventListener('input', (e) => {
+    goToPage(parseInt(e.target.value, 10));
+  });
+
+  // 7. Zoom Kontrolleri
+  function applyZoom(delta) {
+    currentZoom = Math.min(220, Math.max(70, currentZoom + delta));
+    zoomLevelText.textContent = `${currentZoom}%`;
+    singlePageImg.style.transform = `scale(${currentZoom / 100})`;
+  }
+
+  btnZoomIn.addEventListener('click', () => applyZoom(20));
+  btnZoomOut.addEventListener('click', () => applyZoom(-20));
+
+  // 8. İçindekiler Fihristini Oluştur
   function buildTOC() {
     tocList.innerHTML = '';
     const chapters = db.chapters || [];
@@ -186,23 +340,21 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="toc-page-pill">S. ${ch.page}</div>
       `;
       li.addEventListener('click', () => {
-        scrollToPage(ch.page);
+        goToPage(ch.page);
         closeAllModals();
       });
       tocList.appendChild(li);
     });
   }
 
-  // TOC Arama
   tocSearchInput.addEventListener('input', (e) => {
     const q = e.target.value.toLowerCase().trim();
     document.querySelectorAll('.toc-item').forEach(item => {
-      const text = item.textContent.toLowerCase();
-      item.style.display = text.includes(q) ? 'flex' : 'none';
+      item.style.display = item.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
     });
   });
 
-  // 6. Genel Arama Fonksiyonu
+  // 9. Genel Arama
   function handleSearch(query) {
     const q = query.toLowerCase().trim();
     if (!q) {
@@ -210,7 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Sayfa numarası araması
     const num = parseInt(q, 10);
     if (!isNaN(num) && num >= 1 && num <= TOTAL_PAGES) {
       searchResultsList.innerHTML = `
@@ -219,37 +370,34 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="search-result-snippet">Kitapta doğrudan ${num}. sayfayı görüntülemek için dokunun.</div>
         </div>
       `;
-      attachSearchResultClick();
+      attachSearchClicks();
       return;
     }
 
-    // Başlık ve Konu Arama
-    const chapters = db.chapters || [];
-    const matches = chapters.filter(ch => 
-      ch.title.toLowerCase().includes(q) || 
+    const matches = (db.chapters || []).filter(ch =>
+      ch.title.toLowerCase().includes(q) ||
       (ch.category && ch.category.toLowerCase().includes(q))
     );
 
     if (matches.length === 0) {
-      searchResultsList.innerHTML = `<div class="search-hint">"${query}" ile eşleşen bölüm başlığı bulunamadı.<br><small>Farklı bir anahtar kelime deneyebilirsiniz (örn: yemek, namaz, uyku, abdest).</small></div>`;
+      searchResultsList.innerHTML = `<div class="search-hint">"${query}" ile eşleşen başlık bulunamadı.<br><small>Farklı bir kelime deneyin (örn: yemek, namaz, uyku, abdest).</small></div>`;
       return;
     }
 
     searchResultsList.innerHTML = matches.map(ch => `
       <div class="search-result-item" data-page="${ch.page}">
         <div class="search-result-title">${ch.title}</div>
-        <div class="search-result-snippet">${ch.category} • Başlangıç Sayfası: <strong>${ch.page}</strong> (Kitap S. ${ch.printed_page || ch.page})</div>
+        <div class="search-result-snippet">${ch.category} • Sayfa: <strong>${ch.page}</strong> (Kitap S. ${ch.printed_page || ch.page})</div>
       </div>
     `).join('');
 
-    attachSearchResultClick();
+    attachSearchClicks();
   }
 
-  function attachSearchResultClick() {
+  function attachSearchClicks() {
     searchResultsList.querySelectorAll('.search-result-item').forEach(item => {
       item.addEventListener('click', () => {
-        const page = parseInt(item.dataset.page, 10);
-        scrollToPage(page);
+        goToPage(parseInt(item.dataset.page, 10));
         closeAllModals();
       });
     });
@@ -257,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
 
-  // 7. Modalları ve Çekmeceleri Yönet
+  // 10. Modalları Yönet
   function closeAllModals() {
     tocDrawerBackdrop.classList.remove('active');
     searchModalBackdrop.classList.remove('active');
@@ -266,7 +414,6 @@ document.addEventListener('DOMContentLoaded', () => {
     duplicatesModalBackdrop.classList.remove('active');
   }
 
-  // Buton Tıklamaları
   btnOpenTOC.addEventListener('click', () => tocDrawerBackdrop.classList.add('active'));
   btnCloseTOC.addEventListener('click', closeAllModals);
 
@@ -276,16 +423,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   btnCloseSearch.addEventListener('click', closeAllModals);
 
-  headerCenterBtn.addEventListener('click', openJumpModal);
-  btnJumpIndicator.addEventListener('click', openJumpModal);
-  btnCloseJump.addEventListener('click', closeAllModals);
-
   function openJumpModal() {
     jumpRange.value = currentPage;
     jumpSliderVal.textContent = currentPage;
     jumpDirectNum.value = currentPage;
     jumpModalBackdrop.classList.add('active');
   }
+
+  headerCenterBtn.addEventListener('click', openJumpModal);
+  btnJumpIndicator.addEventListener('click', openJumpModal);
+  btnCloseJump.addEventListener('click', closeAllModals);
 
   jumpRange.addEventListener('input', (e) => {
     jumpSliderVal.textContent = e.target.value;
@@ -295,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnConfirmJump.addEventListener('click', () => {
     const val = parseInt(jumpDirectNum.value || jumpRange.value, 10);
     if (!isNaN(val) && val >= 1 && val <= TOTAL_PAGES) {
-      scrollToPage(val);
+      goToPage(val);
       closeAllModals();
     }
   });
@@ -306,23 +453,13 @@ document.addEventListener('DOMContentLoaded', () => {
   btnOpenDuplicates.addEventListener('click', () => duplicatesModalBackdrop.classList.add('active'));
   btnCloseDuplicates.addEventListener('click', closeAllModals);
 
-  // Backdrop tıklamasıyla kapatma
   [tocDrawerBackdrop, searchModalBackdrop, jumpModalBackdrop, settingsDrawerBackdrop, duplicatesModalBackdrop].forEach(b => {
     b.addEventListener('click', (e) => {
       if (e.target === b) closeAllModals();
     });
   });
 
-  // 8. Önceki / Sonraki Sayfa Butonları
-  btnPrevPage.addEventListener('click', () => {
-    if (currentPage > 1) scrollToPage(currentPage - 1);
-  });
-
-  btnNextPage.addEventListener('click', () => {
-    if (currentPage < TOTAL_PAGES) scrollToPage(currentPage + 1);
-  });
-
-  // 9. Tema Seçimi
+  // 11. Tema Seçimi
   themeChips.forEach(chip => {
     chip.addEventListener('click', () => {
       themeChips.forEach(c => c.classList.remove('active'));
@@ -333,7 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Kayıtlı tema yükleme
   const savedTheme = localStorage.getItem('sunnet4000_theme') || 'sepya';
   document.body.setAttribute('data-theme', savedTheme);
   const activeChip = document.querySelector(`[data-set-theme="${savedTheme}"]`);
@@ -344,52 +480,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Filtreler
   chkContrast.addEventListener('change', (e) => {
-    document.querySelectorAll('.page-image').forEach(img => {
-      img.classList.toggle('page-contrast-filter', e.target.checked);
-    });
+    singlePageImg.classList.toggle('page-contrast-filter', e.target.checked);
   });
 
   chkEyeCare.addEventListener('change', (e) => {
-    document.querySelectorAll('.page-image').forEach(img => {
-      img.classList.toggle('page-eyecare-filter', e.target.checked);
-    });
+    singlePageImg.classList.toggle('page-eyecare-filter', e.target.checked);
   });
 
-  // Genişlik
-  btnWidthFull.addEventListener('click', () => {
-    btnWidthFull.classList.add('active');
-    btnWidthStandard.classList.remove('active');
-    readerViewport.classList.add('full-width');
-  });
-
-  btnWidthStandard.addEventListener('click', () => {
-    btnWidthStandard.classList.add('active');
-    btnWidthFull.classList.remove('active');
-    readerViewport.classList.remove('full-width');
-  });
-
-  // 10. Klavye Kısayolları
+  // 12. Klavye ve Dokunma Kısayolları
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeAllModals();
-    } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
-      if (currentPage < TOTAL_PAGES) scrollToPage(currentPage + 1);
-    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      if (currentPage > 1) scrollToPage(currentPage - 1);
-    } else if (e.key === 'Home') {
-      scrollToPage(1);
-    } else if (e.key === 'End') {
-      scrollToPage(TOTAL_PAGES);
-    }
+    if (e.key === 'Escape') closeAllModals();
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') goToPage(currentPage + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') goToPage(currentPage - 1);
+    if (e.key === 'Home') goToPage(1);
+    if (e.key === 'End') goToPage(TOTAL_PAGES);
   });
+
+  // Mobil Kaydırma (Swipe)
+  let touchStartX = 0;
+  let touchEndX = 0;
+  singlePageReader.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  singlePageReader.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) goToPage(currentPage + 1); // Sağa kaydırma -> sonraki
+      else goToPage(currentPage - 1); // Sola kaydırma -> önceki
+    }
+  }, { passive: true });
 
   // Başlangıç
-  initPages();
   buildTOC();
-
-  // Son kalınan sayfaya git
-  const lastPage = parseInt(localStorage.getItem('sunnet4000_last_page'), 10);
-  if (lastPage && lastPage > 1 && lastPage <= TOTAL_PAGES) {
-    setTimeout(() => scrollToPage(lastPage, false), 100);
-  }
+  renderSinglePage(currentPage);
 });

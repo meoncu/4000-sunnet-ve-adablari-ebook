@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#fcf6ea">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — E-Kitap</title>
+  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — E-Kitap Okuyucu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/jpeg" href="cover.jpg">
@@ -22,9 +22,25 @@
   <!-- Üst Başlık ve Kontrol Çubuğu -->
   <header class="reader-header">
     <div class="header-left">
-      <button id="btnOpenTOC" class="icon-btn" aria-label="İçindekiler Fihristi" title="İçindekiler">
+      <button id="btnOpenTOC" class="icon-btn" aria-label="İçindekiler Fihristi" title="İçindekiler (31 Bölüm)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
+      
+      <!-- Görünüm Modu Seçici -->
+      <div class="view-mode-selector">
+        <button id="btnModeSingle" class="mode-tab-btn active" title="Sayfa Sayfa Oku (Kitap Modu)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+          <span class="mode-text">Sayfa Sayfa</span>
+        </button>
+        <button id="btnModeScroll" class="mode-tab-btn" title="Dikey Kaydırma Modu">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+          <span class="mode-text">Sürekli Akış</span>
+        </button>
+        <button id="btnModeGrid" class="mode-tab-btn" title="Tüm 432 Sayfayı Gör (Küçük Resim Dizini)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span class="mode-text">Tüm Sayfalar (432)</span>
+        </button>
+      </div>
     </div>
 
     <div class="header-center" id="headerCenterBtn" title="Sayfaya Git (1 - 432)">
@@ -33,11 +49,18 @@
     </div>
 
     <div class="header-right">
+      <!-- Zoom Kontrolleri -->
+      <div class="zoom-controls-group">
+        <button id="btnZoomOut" class="icon-btn-compact" title="Uzaklaştır">－</button>
+        <span id="zoomLevelText" class="zoom-level-text">100%</span>
+        <button id="btnZoomIn" class="icon-btn-compact" title="Yakınlaştır">＋</button>
+      </div>
+
       <button id="btnOpenSearch" class="icon-btn" aria-label="Kitapta Ara" title="Kitapta Ara">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
-      <button id="btnOpenDuplicates" class="icon-btn" aria-label="Mükerrer Sayfa Raporu" title="Mükerrer Sayfa Analizi">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+      <button id="btnOpenDuplicates" class="icon-btn" aria-label="Mükerrer Sayfa Raporu" title="Mükerrer Sayfa Raporu">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
       </button>
       <button id="btnOpenSettings" class="icon-btn" aria-label="Okuma Ayarları" title="Yazı & Tema">
         <span style="font-size:15px; font-weight:bold; font-family:serif;">Aa</span>
@@ -45,25 +68,75 @@
     </div>
   </header>
 
-  <!-- Okuma Alanı (432 Sayfa) -->
-  <main class="reader-viewport" id="readerViewport">
-    <!-- app.js tarafından doldurulacak -->
+  <!-- ======================================================== -->
+  <!-- 1. GÖRÜNÜM: TEK SAYFA OKUYUCU (VARSAYILAN / DEFAULT)     -->
+  <!-- ======================================================== -->
+  <main class="single-page-reader" id="singlePageReader">
+    
+    <!-- Sol Sayfa Çevirme Butonu -->
+    <button class="page-nav-arrow arrow-prev" id="arrowPrev" title="Önceki Sayfa (Sol Ok)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+
+    <!-- Sayfa Sahnesi -->
+    <div class="page-stage" id="pageStage">
+      <div class="active-page-card" id="activePageCard">
+        <div class="page-top-info-bar">
+          <span class="info-badge" id="singlePageHeaderBadge">Sayfa 1 / 432 (Kitap S. 5)</span>
+          <span class="info-chapter" id="singlePageChapterBadge">Kapak ve Giriş</span>
+        </div>
+        <div class="page-img-zoom-wrapper" id="pageImgZoomWrapper">
+          <img id="singlePageImg" src="pages/page_001.webp" alt="Sayfa 1" class="active-book-img" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Sağ Sayfa Çevirme Butonu -->
+    <button class="page-nav-arrow arrow-next" id="arrowNext" title="Sonraki Sayfa (Sağ Ok)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 2. GÖRÜNÜM: DİKEY SÜREKLİ AKIŞ (SCROLL MODE)             -->
+  <!-- ======================================================== -->
+  <main class="scroll-page-reader hidden" id="scrollPageReader">
+    <div class="scroll-container" id="scrollContainer">
+      <!-- JavaScript ile doldurulur -->
+    </div>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 3. GÖRÜNÜM: TÜM 432 SAYFA GALERİSİ (GRID MODE)           -->
+  <!-- ======================================================== -->
+  <main class="grid-page-reader hidden" id="gridPageReader">
+    <div class="grid-header-bar">
+      <h2>Tüm Sayfalar Dizini (432 Sayfa)</h2>
+      <p>Kitaptaki tüm sayfaları küçük resimler halinde inceleyebilir, istediğiniz sayfaya dokunarak doğrudan okumaya geçebilirsiniz.</p>
+    </div>
+    <div class="pages-grid" id="pagesGrid">
+      <!-- JavaScript ile 432 sayfa küçük resmi oluşturulur -->
+    </div>
   </main>
 
   <!-- Alt Gezinme Barı -->
   <nav class="reader-bottom-nav">
     <button class="nav-page-btn" id="btnPrevPage">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
       <span>Önceki</span>
     </button>
 
-    <button class="nav-jump-btn" id="btnJumpIndicator">
-      Sayfa 1 / 432
-    </button>
+    <div class="nav-jump-group">
+      <button class="nav-jump-btn" id="btnJumpIndicator">
+        Sayfa 1 / 432
+      </button>
+      <input type="range" id="bottomNavSlider" min="1" max="432" value="1" class="bottom-slider" title="Hızlı Sayfa Kaydırıcı">
+    </div>
 
     <button class="nav-page-btn" id="btnNextPage">
       <span>Sonraki</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
   </nav>
 
@@ -72,13 +145,13 @@
     <div class="drawer-panel left">
       <div class="drawer-header">
         <div class="drawer-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
           <span>İçindekiler (31 Bölüm)</span>
         </div>
         <button class="icon-btn" id="btnCloseTOC">✕</button>
       </div>
       <div class="drawer-body">
-        <input type="text" id="tocSearchInput" class="toc-search-box" placeholder="Konu veya başlık ara...">
+        <input type="text" id="tocSearchInput" class="toc-search-box" placeholder="Bölüm veya konu ara...">
         <ul class="toc-drawer-list" id="tocList">
           <!-- app.js tarafından doldurulacak -->
         </ul>
@@ -173,18 +246,10 @@
           </div>
         </div>
 
-        <div class="setting-group">
-          <label class="setting-label">Görünüm Genişliği</label>
-          <div class="btn-group-2">
-            <button class="toggle-btn active" id="btnWidthStandard">Standart</button>
-            <button class="toggle-btn" id="btnWidthFull">Tam Ekran</button>
-          </div>
-        </div>
-
         <div class="setting-group info-box">
           <p><strong>Peygamber Efendimizin 4000 Sünnet ve Âdâbları</strong></p>
           <p class="text-muted">Ahmed Gültekin & Nuri Dunay<br>Takriz: Ali Kara (Hocaefendi)</p>
-          <p class="text-muted" style="margin-top:6px; font-size:12px;">5 mükerrer sayfa elenerek 432 kusursuz sayfa olarak dijitalleştirilmiştir.</p>
+          <p class="text-muted" style="margin-top:6px; font-size:12px;">5 mükerrer sayfa ayıklanarak 432 kusursuz sayfa olarak hazırlanmıştır.</p>
         </div>
 
       </div>
