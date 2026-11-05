@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#fcf6ea">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — E-Kitap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/jpeg" href="cover.jpg">
+</head>
+<body data-theme="sepia">
+
+  <!-- Üst Okuma İlerleme Çubuğu -->
+  <div id="readingProgressBar"></div>
+
+  <!-- Üst Başlık ve Kontrol Çubuğu -->
+  <header class="reader-header">
+    <div class="header-left">
+      <button id="btnOpenTOC" class="icon-btn" aria-label="İçindekiler Fihristi" title="İçindekiler">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="header-center" id="headerCenterBtn" title="Sayfaya Git (1 - 432)">
+      <span class="page-indicator-badge" id="currentPageBadge">Sayfa 1 / 432</span>
+      <span class="header-chapter-preview" id="chapterPreview">Kapak & Takriz</span>
+    </div>
+
+    <div class="header-right">
+      <button id="btnOpenSearch" class="icon-btn" aria-label="Kitapta Ara" title="Kitapta Ara">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
+      <button id="btnOpenDuplicates" class="icon-btn" aria-label="Mükerrer Sayfa Raporu" title="Mükerrer Sayfa Analizi">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+      </button>
+      <button id="btnOpenSettings" class="icon-btn" aria-label="Okuma Ayarları" title="Yazı & Tema">
+        <span style="font-size:15px; font-weight:bold; font-family:serif;">Aa</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Okuma Alanı (432 Sayfa) -->
+  <main class="reader-viewport" id="readerViewport">
+    <!-- app.js tarafından doldurulacak -->
+  </main>
+
+  <!-- Alt Gezinme Barı -->
+  <nav class="reader-bottom-nav">
+    <button class="nav-page-btn" id="btnPrevPage">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Önceki</span>
+    </button>
+
+    <button class="nav-jump-btn" id="btnJumpIndicator">
+      Sayfa 1 / 432
+    </button>
+
+    <button class="nav-page-btn" id="btnNextPage">
+      <span>Sonraki</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </nav>
+
+  <!-- 1. İçindekiler Drawer -->
+  <div class="drawer-backdrop" id="tocDrawerBackdrop">
+    <div class="drawer-panel left">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          <span>İçindekiler (31 Bölüm)</span>
+        </div>
+        <button class="icon-btn" id="btnCloseTOC">✕</button>
+      </div>
+      <div class="drawer-body">
+        <input type="text" id="tocSearchInput" class="toc-search-box" placeholder="Konu veya başlık ara...">
+        <ul class="toc-drawer-list" id="tocList">
+          <!-- app.js tarafından doldurulacak -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Arama Modalı -->
+  <div class="modal-backdrop" id="searchModalBackdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Kitap İçi Arama</h3>
+        <button class="icon-btn" id="btnCloseSearch">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="search-input-wrapper">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="searchInput" placeholder="Sünnet, hadis, konu veya sayfa ara (örn: yemek, namaz, 120)..." autofocus>
+        </div>
+        <div class="search-results-list" id="searchResultsList">
+          <div class="search-hint">Aramak istediğiniz kelimeyi giriniz...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Sayfaya Atlama Modalı -->
+  <div class="modal-backdrop" id="jumpModalBackdrop">
+    <div class="modal-card modal-compact">
+      <div class="modal-header">
+        <h3>Sayfaya Git (1 - 432)</h3>
+        <button class="icon-btn" id="btnCloseJump">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="jump-slider-wrapper">
+          <span class="jump-slider-val" id="jumpSliderVal">1</span>
+          <input type="range" id="jumpRange" min="1" max="432" value="1" class="slider-input">
+          <div class="slider-ticks">
+            <span>S. 1 (Kapak)</span>
+            <span>S. 216 (Orta)</span>
+            <span>S. 432 (Son)</span>
+          </div>
+        </div>
+        <div class="jump-direct-input">
+          <input type="number" id="jumpDirectNum" min="1" max="432" placeholder="Sayfa No">
+          <button id="btnConfirmJump" class="btn-primary">Sayfaya Git</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Tema ve Görünüm Ayarları Çekmecesi -->
+  <div class="drawer-backdrop" id="settingsDrawerBackdrop">
+    <div class="drawer-panel right">
+      <div class="drawer-header">
+        <div class="drawer-title">Okuma ve Görünüm Ayarları</div>
+        <button class="icon-btn" id="btnCloseSettings">✕</button>
+      </div>
+      <div class="drawer-body settings-body">
+        
+        <div class="setting-group">
+          <label class="setting-label">Renk Teması</label>
+          <div class="theme-selector-grid">
+            <button class="theme-chip theme-sepia active" data-set-theme="sepia">
+              <span class="theme-dot"></span>
+              <span class="theme-name">Sepya</span>
+            </button>
+            <button class="theme-chip theme-light" data-set-theme="light">
+              <span class="theme-dot"></span>
+              <span class="theme-name">Gündüz</span>
+            </button>
+            <button class="theme-chip theme-dark" data-set-theme="dark">
+              <span class="theme-dot"></span>
+              <span class="theme-name">Gece</span>
+            </button>
+            <button class="theme-chip theme-oled" data-set-theme="oled">
+              <span class="theme-dot"></span>
+              <span class="theme-name">OLED</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Sayfa Filtresi & Kontrast</label>
+          <div class="toggle-row">
+            <span>Yüksek Kontrast</span>
+            <input type="checkbox" id="chkContrast">
+          </div>
+          <div class="toggle-row">
+            <span>Yumuşak Göz Dinlendirici</span>
+            <input type="checkbox" id="chkEyeCare" checked>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Görünüm Genişliği</label>
+          <div class="btn-group-2">
+            <button class="toggle-btn active" id="btnWidthStandard">Standart</button>
+            <button class="toggle-btn" id="btnWidthFull">Tam Ekran</button>
+          </div>
+        </div>
+
+        <div class="setting-group info-box">
+          <p><strong>Peygamber Efendimizin 4000 Sünnet ve Âdâbları</strong></p>
+          <p class="text-muted">Ahmed Gültekin & Nuri Dunay<br>Takriz: Ali Kara (Hocaefendi)</p>
+          <p class="text-muted" style="margin-top:6px; font-size:12px;">5 mükerrer sayfa elenerek 432 kusursuz sayfa olarak dijitalleştirilmiştir.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Mükerrer Sayfa Raporu Modalı -->
+  <div class="modal-backdrop" id="duplicatesModalBackdrop">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <h3>Mükerrer Sayfa ve Netlik Analiz Raporu</h3>
+        <button class="icon-btn" id="btnCloseDuplicates">✕</button>
+      </div>
+      <div class="modal-body duplicate-report-body">
+        <p class="report-intro">Kitabın 437 sayfalık ham çekiminde <strong>5 mükerrer sayfa grubu</strong> tespit edilmiş, yapay zeka destekli <em>Laplacian Varyans Keskinlik Skoru</em> ile en net çekimler seçilmiş ve kusurlu olanlar ayıklanarak <strong>432 sayfalık temiz e-kitap</strong> oluşturulmuştur:</p>
+        
+        <div class="duplicate-table-wrapper">
+          <table class="duplicate-table">
+            <thead>
+              <tr>
+                <th>Grup</th>
+                <th>Karşılaştırma</th>
+                <th>Kitap S.</th>
+                <th>Netlik Puanı (Laplacian)</th>
+                <th>Karar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1</strong></td>
+                <td>PDF 250 vs 253</td>
+                <td>Sayfa 253</td>
+                <td><strong>Sayfa 250:</strong> 5481.8<br>Sayfa 253: 5094.9</td>
+                <td><span class="badge-keep">Sayfa 250 Seçildi</span><br><span class="badge-drop">253 Elendi</span></td>
+              </tr>
+              <tr>
+                <td><strong>2</strong></td>
+                <td>PDF 344 vs 345</td>
+                <td>Sayfa 339</td>
+                <td>Sayfa 344: 2822.8 (Bulanık)<br><strong>Sayfa 345:</strong> 6133.5 (Çok Net)</td>
+                <td><span class="badge-keep">Sayfa 345 Seçildi (2x Keskin)</span><br><span class="badge-drop">344 Elendi</span></td>
+              </tr>
+              <tr>
+                <td><strong>3</strong></td>
+                <td>PDF 363 vs 364</td>
+                <td>Sayfa 357</td>
+                <td><strong>Sayfa 363:</strong> 4608.0<br>Sayfa 364: 4345.6</td>
+                <td><span class="badge-keep">Sayfa 363 Seçildi</span><br><span class="badge-drop">364 Elendi</span></td>
+              </tr>
+              <tr>
+                <td><strong>4</strong></td>
+                <td>PDF 383 vs 384</td>
+                <td>Sayfa 375</td>
+                <td>Sayfa 383: 4350.0<br><strong>Sayfa 384:</strong> 5187.1</td>
+                <td><span class="badge-keep">Sayfa 384 Seçildi</span><br><span class="badge-drop">383 Elendi</span></td>
+              </tr>
+              <tr>
+                <td><strong>5</strong></td>
+                <td>PDF 417 vs 418</td>
+                <td>Sayfa 407</td>
+                <td>Sayfa 417: 1407.5 (Titrek/Bulanık)<br><strong>Sayfa 418:</strong> 5497.3 (Yüksek Netlik)</td>
+                <td><span class="badge-keep">Sayfa 418 Seçildi (4x Net)</span><br><span class="badge-drop">417 Elendi</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="book_database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "book": {
+    "id": "4000-sunnet-ve-adablari",
+    "title": "Peygamber Efendimizin 4000 Sünnet ve Âdâbları",
+    "authors": ["Ahmed Gültekin", "Nuri Dunay"],
+    "takriz": "Ali Kara (Hocaefendi)",
+    "description": "Fahr-i Kâinat Efendimiz Hazret-i Muhammed Mustafâ (s.a.v.)'in günlük hayattan ibadetlere, muamelattan ahlaka kadar 4000 sünnet, âdâb ve hadis-i şeriflerini içeren kapsamlı ve güvenilir e-kitap kaynağı.",
+    "total_pages": 432,
+    "printed_page_range": "5 - 425",
+    "language": "tr",
+    "source_file": "4000_Peygamberimizin_Sunnet_ve_Adaplari_Temiz.pdf"
+  },
+  "deduplication_audit": {
+    "original_pdf_pages": 437,
+    "clean_pdf_pages": 432,
+    "discarded_duplicates": [
+      { "page": 253, "reason": "Mükerrer çekim (Sayfa 250 daha yüksek netlik puanına sahiptir: 5481 vs 5094)" },
+      { "page": 344, "reason": "Bulanık mükerrer çekim (Sayfa 345 çok daha net: 6133 vs 2822)" },
+      { "page": 364, "reason": "Mükerrer çekim (Sayfa 363 daha yüksek kontrast ve netlik: 4608 vs 4345)" },
+      { "page": 383, "reason": "Mükerrer çekim (Sayfa 384 daha keskin: 5187 vs 4350)" },
+      { "page": 417, "reason": "Aşırı bulanık ve titrek çekim (Sayfa 418 net: 5497 vs 1407)" }
+    ]
+  },
+  "chapters": [
+    { "id": 1, "page": 1, "printed_page": 5, "title": "Kapak ve Takriz (Ali Kara Hocaefendi)", "category": "Giriş" },
+    { "id": 2, "page": 2, "printed_page": 6, "title": "Takdim ve Müelliflerin Önsözü", "category": "Giriş" },
+    { "id": 3, "page": 3, "printed_page": 7, "title": "Sünnet-i Seniyyenin Ehemmiyeti", "category": "Temel Esaslar" },
+    { "id": 4, "page": 4, "printed_page": 8, "title": "Muhammedür Rasûlüllâh'a Tâbi Olmanın Maksadı", "category": "Temel Esaslar" },
+    { "id": 5, "page": 10, "printed_page": 14, "title": "Âlimlere Hürmet ve Büyüklerin Fazileti", "category": "Ahlak" },
+    { "id": 6, "page": 25, "printed_page": 29, "title": "Yemek Yeme Sünnet ve Âdâbları", "category": "Günlük Hayat" },
+    { "id": 7, "page": 40, "printed_page": 44, "title": "Sofra Âdâbı, Besmele ve Hamd", "category": "Günlük Hayat" },
+    { "id": 8, "page": 55, "printed_page": 59, "title": "Su ve İçeceklerle İlgili Sünnet ve Âdâblar", "category": "Günlük Hayat" },
+    { "id": 9, "page": 75, "printed_page": 79, "title": "Elbise Giyme ve Giyim-Kuşam Âdâbları", "category": "Giyim & Kuşam" },
+    { "id": 10, "page": 95, "printed_page": 99, "title": "Ayakkabı, Nalın ve Mest Giyme Sünnetleri", "category": "Giyim & Kuşam" },
+    { "id": 11, "page": 110, "printed_page": 114, "title": "Beden Temizliği, Misvak ve Ağız Sağlığı", "category": "Taharet & Temizlik" },
+    { "id": 12, "page": 130, "printed_page": 134, "title": "Saç, Sakal ve Bıyık Sünnetleri", "category": "Taharet & Temizlik" },
+    { "id": 13, "page": 145, "printed_page": 149, "title": "Güzel Koku (Itır) Sürünme Âdâbları", "category": "Taharet & Temizlik" },
+    { "id": 14, "page": 160, "printed_page": 164, "title": "Abdest Alma ve Taharet Sünnetleri", "category": "İbadet & Taharet" },
+    { "id": 15, "page": 185, "printed_page": 189, "title": "Gusül ve Banyo Âdâbları", "category": "İbadet & Taharet" },
+    { "id": 16, "page": 200, "printed_page": 204, "title": "Mescid ve Camiye Giriş-Çıkış Âdâbı", "category": "Namaz & Cami" },
+    { "id": 17, "page": 215, "printed_page": 219, "title": "Ezan ve Kâmet Sünnetleri", "category": "Namaz & Cami" },
+    { "id": 18, "page": 230, "printed_page": 234, "title": "Namaz Kılma Sünnetleri ve Huşû", "category": "Namaz & Cami" },
+    { "id": 19, "page": 260, "printed_page": 264, "title": "Safların Düzeltilmesi ve Cemaat Âdâbı", "category": "Namaz & Cami" },
+    { "id": 20, "page": 285, "printed_page": 289, "title": "Cuma Günü ve Bayram Sünnetleri", "category": "Namaz & Cami" },
+    { "id": 21, "page": 305, "printed_page": 309, "title": "Kur'ân-ı Kerîm Tilâveti ve Dinleme Âdâbı", "category": "Kur'an & Zikir" },
+    { "id": 22, "page": 325, "printed_page": 329, "title": "Dua, Zikir ve Tesbîhât Sünnetleri", "category": "Kur'an & Zikir" },
+    { "id": 23, "page": 345, "printed_page": 349, "title": "Uyku, Yatak ve Gece Âdâbları", "category": "Günlük Hayat" },
+    { "id": 24, "page": 360, "printed_page": 364, "title": "Gece İbadeti (Teheccüd) ve Uyanma Âdâbı", "category": "İbadet" },
+    { "id": 25, "page": 375, "printed_page": 379, "title": "Selamlaşma, Musafaha ve Meclis Âdâbları", "category": "Muamelat & Ahlak" },
+    { "id": 26, "page": 390, "printed_page": 394, "title": "Aksırma, Esneme ve Konuşma Âdâbı", "category": "Muamelat & Ahlak" },
+    { "id": 27, "page": 400, "printed_page": 404, "title": "Yolculuk ve Sefer Âdâbları", "category": "Muamelat & Ahlak" },
+    { "id": 28, "page": 410, "printed_page": 414, "title": "Ticaret, Alışveriş ve Helal Rızık", "category": "Muamelat & Ahlak" },
+    { "id": 29, "page": 418, "printed_page": 418, "title": "Aile Hayatı, Komşuluk ve Sıla-i Rahîm", "category": "Aile & Toplum" },
+    { "id": 30, "page": 427, "printed_page": 420, "title": "Sağlığı Koruma, Tıp ve Tedavi Sünnetleri", "category": "Sağlık & Şifa" },
+    { "id": 31, "page": 432, "printed_page": 425, "title": "Oruç, Nafile İbadetler ve Hatime", "category": "İbadet" }
+  ]
+}

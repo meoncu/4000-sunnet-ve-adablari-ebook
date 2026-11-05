@@ -1,0 +1,17 @@
+{
+  "name": "Peygamberimizin 4000 Sünnet ve Âdâbları",
+  "short_name": "4000 Sünnet",
+  "description": "Peygamber Efendimiz (s.a.v.)'in 4000 Sünnet ve Âdâbları E-Kitap Uygulaması",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fcf6ea",
+  "theme_color": "#fcf6ea",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "cover.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
