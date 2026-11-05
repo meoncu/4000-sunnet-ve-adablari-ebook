@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollModeInitialized) return;
     scrollModeInitialized = true;
 
+    const placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1450'%3E%3C/svg%3E";
     const frag = document.createDocumentFragment();
     for (let i = 1; i <= TOTAL_PAGES; i++) {
       const card = document.createElement('div');
@@ -211,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <img 
           class="scroll-page-img" 
-          src="${i <= 3 ? getPageImgUrl(i) : 'data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 1000 1450\\'%3E%3C/svg%3E'}" 
+          src="${i <= 3 ? getPageImgUrl(i) : placeholder}" 
           data-src="${getPageImgUrl(i)}" 
           alt="Sayfa ${i}" 
           loading="${i <= 3 ? 'eager' : 'lazy'}" 
@@ -305,10 +306,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  arrowPrev.addEventListener('click', () => goToPage(currentPage - 1));
-  arrowNext.addEventListener('click', () => goToPage(currentPage + 1));
-  btnPrevPage.addEventListener('click', () => goToPage(currentPage - 1));
-  btnNextPage.addEventListener('click', () => goToPage(currentPage + 1));
+  arrowPrev.addEventListener('click', (e) => { e.stopPropagation(); goToPage(currentPage - 1); });
+  arrowNext.addEventListener('click', (e) => { e.stopPropagation(); goToPage(currentPage + 1); });
+  btnPrevPage.addEventListener('click', (e) => { e.stopPropagation(); goToPage(currentPage - 1); });
+  btnNextPage.addEventListener('click', (e) => { e.stopPropagation(); goToPage(currentPage + 1); });
+
+  // Resme Dokunarak Sayfa Çevirme (Kitap Deneyimi)
+  singlePageImg.addEventListener('click', (e) => {
+    // Zoom varsa dokunma ile çevirmeyi devre dışı bırak
+    if (currentZoom !== 100) return;
+    const rect = singlePageImg.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    if (clickX > rect.width * 0.5) {
+      goToPage(currentPage + 1);
+    } else {
+      goToPage(currentPage - 1);
+    }
+  });
 
   bottomNavSlider.addEventListener('input', (e) => {
     goToPage(parseInt(e.target.value, 10));
