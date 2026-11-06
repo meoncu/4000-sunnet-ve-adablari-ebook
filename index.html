@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#fcf6ea">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — E-Kitap Okuyucu</title>
+  <title>Peygamber Efendimizin 4000 Sünnet ve Âdâbları — Dijital E-Kitap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/jpeg" href="cover.jpg">
@@ -19,26 +19,22 @@
   <!-- Üst Okuma İlerleme Çubuğu -->
   <div id="readingProgressBar"></div>
 
-  <!-- Üst Başlık ve Kontrol Çubuğu -->
+  <!-- Üst Header Bar -->
   <header class="reader-header">
     <div class="header-left">
       <button id="btnOpenTOC" class="icon-btn" aria-label="İçindekiler Fihristi" title="İçindekiler (31 Bölüm)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
       
-      <!-- Görünüm Modu Seçici -->
+      <!-- Görünüm Seçici -->
       <div class="view-mode-selector">
-        <button id="btnModeSingle" class="mode-tab-btn active" title="Sayfa Sayfa Oku (Kitap Modu)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="12" y1="2" x2="12" y2="22"></line></svg>
-          <span class="mode-text">Sayfa Sayfa</span>
+        <button id="btnModeDigital" class="mode-tab-btn active" title="Dijital Hadis Kartları">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span class="mode-text">Dijital Hadisler</span>
         </button>
-        <button id="btnModeScroll" class="mode-tab-btn" title="Dikey Kaydırma Modu">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-          <span class="mode-text">Sürekli Akış</span>
-        </button>
-        <button id="btnModeGrid" class="mode-tab-btn" title="Tüm 432 Sayfayı Gör (Küçük Resim Dizini)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          <span class="mode-text">Tüm Sayfalar (432)</span>
+        <button id="btnModeText" class="mode-tab-btn" title="Düz Metin Akışı">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+          <span class="mode-text">Metin</span>
         </button>
       </div>
     </div>
@@ -49,19 +45,21 @@
     </div>
 
     <div class="header-right">
-      <!-- Zoom Kontrolleri -->
-      <div class="zoom-controls-group">
-        <button id="btnZoomOut" class="icon-btn-compact" title="Uzaklaştır">－</button>
-        <span id="zoomLevelText" class="zoom-level-text">100%</span>
-        <button id="btnZoomIn" class="icon-btn-compact" title="Yakınlaştır">＋</button>
+      <!-- Font Boyutu Kontrolleri -->
+      <div class="font-controls-group">
+        <button id="btnFontDec" class="icon-btn-compact" title="Yazıyı Küçült">A-</button>
+        <span id="fontSizeDisplay" class="font-size-text">18px</span>
+        <button id="btnFontInc" class="icon-btn-compact" title="Yazıyı Büyüt">A+</button>
       </div>
 
-      <button id="btnOpenSearch" class="icon-btn" aria-label="Kitapta Ara" title="Kitapta Ara">
+      <button id="btnOpenSearch" class="icon-btn" aria-label="Kitapta Ara" title="Hadis & Metin Ara">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
-      <button id="btnOpenDuplicates" class="icon-btn" aria-label="Mükerrer Sayfa Raporu" title="Mükerrer Sayfa Raporu">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+
+      <button id="btnOpenDbModal" class="icon-btn" aria-label="Veritabanı İndir" title="Veritabanı & Dışa Aktar (SQLite/JSON/SQL/CSV)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
       </button>
+
       <button id="btnOpenSettings" class="icon-btn" aria-label="Okuma Ayarları" title="Yazı & Tema">
         <span style="font-size:15px; font-weight:bold; font-family:serif;">Aa</span>
       </button>
@@ -69,55 +67,52 @@
   </header>
 
   <!-- ======================================================== -->
-  <!-- 1. GÖRÜNÜM: TEK SAYFA OKUYUCU (VARSAYILAN / DEFAULT)     -->
+  <!-- ANA DİJİTAL OKUMA SAHNESİ                                -->
   <!-- ======================================================== -->
-  <main class="single-page-reader" id="singlePageReader">
+  <main class="digital-reader-stage" id="digitalReaderStage">
     
-    <!-- Sol Sayfa Çevirme Butonu -->
+    <!-- Sol Sayfa Butonu -->
     <button class="page-nav-arrow arrow-prev" id="arrowPrev" title="Önceki Sayfa (Sol Ok)">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
 
-    <!-- Sayfa Sahnesi -->
-    <div class="page-stage" id="pageStage">
-      <div class="active-page-card" id="activePageCard">
-        <div class="page-top-info-bar">
-          <span class="info-badge" id="singlePageHeaderBadge">Sayfa 1 / 432 (Kitap S. 5)</span>
-          <span class="info-chapter" id="singlePageChapterBadge">Kapak ve Giriş</span>
+    <!-- Dijital Kart / Sayfa İçeriği -->
+    <div class="digital-page-card" id="digitalPageCard">
+      
+      <!-- Sayfa Başlığı ve Bilgisi -->
+      <div class="digital-page-meta">
+        <div class="meta-left">
+          <span class="badge-page" id="digitalPageBadge">Sayfa 1 / 432</span>
+          <span class="badge-printed" id="digitalPrintedBadge">Kitap S. 5</span>
         </div>
-        <div class="page-img-zoom-wrapper" id="pageImgZoomWrapper">
-          <img id="singlePageImg" src="pages/page_001.webp" alt="Sayfa 1" class="active-book-img" />
+        <div class="meta-right">
+          <span class="badge-chapter" id="digitalChapterBadge">Giriş • Takriz</span>
         </div>
       </div>
+
+      <!-- Dijital İçerik (Hadis Kartları veya Metin) -->
+      <div class="digital-page-content" id="digitalPageContent">
+        <!-- JavaScript ile dinamik olarak doldurulur -->
+      </div>
+
+      <!-- Orijinal Sayfa Taraması (İsteğe Bağlı Katlanabilir) -->
+      <div class="original-scan-accordion">
+        <button class="btn-toggle-scan" id="btnToggleScan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          <span id="scanToggleText">Orijinal Sayfa Taramasını Karşılaştır</span>
+        </button>
+        <div class="scan-image-wrapper hidden" id="scanImageWrapper">
+          <img id="scanImage" src="pages/page_001.webp" alt="Orijinal Tarama" loading="lazy">
+        </div>
+      </div>
+
     </div>
 
-    <!-- Sağ Sayfa Çevirme Butonu -->
+    <!-- Sağ Sayfa Butonu -->
     <button class="page-nav-arrow arrow-next" id="arrowNext" title="Sonraki Sayfa (Sağ Ok)">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
 
-  </main>
-
-  <!-- ======================================================== -->
-  <!-- 2. GÖRÜNÜM: DİKEY SÜREKLİ AKIŞ (SCROLL MODE)             -->
-  <!-- ======================================================== -->
-  <main class="scroll-page-reader hidden" id="scrollPageReader">
-    <div class="scroll-container" id="scrollContainer">
-      <!-- JavaScript ile doldurulur -->
-    </div>
-  </main>
-
-  <!-- ======================================================== -->
-  <!-- 3. GÖRÜNÜM: TÜM 432 SAYFA GALERİSİ (GRID MODE)           -->
-  <!-- ======================================================== -->
-  <main class="grid-page-reader hidden" id="gridPageReader">
-    <div class="grid-header-bar">
-      <h2>Tüm Sayfalar Dizini (432 Sayfa)</h2>
-      <p>Kitaptaki tüm sayfaları küçük resimler halinde inceleyebilir, istediğiniz sayfaya dokunarak doğrudan okumaya geçebilirsiniz.</p>
-    </div>
-    <div class="pages-grid" id="pagesGrid">
-      <!-- JavaScript ile 432 sayfa küçük resmi oluşturulur -->
-    </div>
   </main>
 
   <!-- Alt Gezinme Barı -->
@@ -163,13 +158,13 @@
   <div class="modal-backdrop" id="searchModalBackdrop">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Kitap İçi Arama</h3>
+        <h3>Dijital Hadis & Konu Arama</h3>
         <button class="icon-btn" id="btnCloseSearch">✕</button>
       </div>
       <div class="modal-body">
         <div class="search-input-wrapper">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="searchInput" placeholder="Sünnet, hadis, konu veya sayfa ara (örn: yemek, namaz, 120)..." autofocus>
+          <input type="text" id="searchInput" placeholder="Hadis metni, kaynak (örn: Buhari, abdest, yemek) veya sayfa..." autofocus>
         </div>
         <div class="search-results-list" id="searchResultsList">
           <div class="search-hint">Aramak istediğiniz kelimeyi giriniz...</div>
@@ -203,7 +198,59 @@
     </div>
   </div>
 
-  <!-- 4. Tema ve Görünüm Ayarları Çekmecesi -->
+  <!-- 4. Veritabanı ve Dışa Aktarma Modalı -->
+  <div class="modal-backdrop" id="dbModalBackdrop">
+    <div class="modal-card modal-compact">
+      <div class="modal-header">
+        <h3>💾 Dijital Veritabanı Dosyaları</h3>
+        <button class="icon-btn" id="btnCloseDbModal">✕</button>
+      </div>
+      <div class="modal-body db-export-body">
+        <p style="font-size:13.5px; margin-bottom:14px; color:var(--text-secondary);">
+          Kitabın tüm hadisleri ve sayfaları yapılandırılmış dijital veri formatlarına dönüştürülmüştür. İstediğiniz formatı doğrudan indirebilir veya kendi projenize aktarabilirsiniz:
+        </p>
+        <div class="db-download-list">
+          <a href="sunnet_4000.db" download class="db-dl-item">
+            <span class="db-icon">🗄️</span>
+            <div class="db-info">
+              <strong>SQLite Veritabanı (.db)</strong>
+              <span>Android, iOS, Flutter ve masaüstü uygulamaları için hazır</span>
+            </div>
+            <span class="dl-badge">İndir</span>
+          </a>
+
+          <a href="digital_database.json" download class="db-dl-item">
+            <span class="db-icon">📋</span>
+            <div class="db-info">
+              <strong>JSON Veritabanı (.json)</strong>
+              <span>REST API, Web ve Node.js/Python projeleri için</span>
+            </div>
+            <span class="dl-badge">İndir</span>
+          </a>
+
+          <a href="sunnet_4000.sql" download class="db-dl-item">
+            <span class="db-icon">⚡</span>
+            <div class="db-info">
+              <strong>SQL Dökümü (.sql)</strong>
+              <span>MySQL, PostgreSQL ve Supabase tablolarına aktarım</span>
+            </div>
+            <span class="dl-badge">İndir</span>
+          </a>
+
+          <a href="database_exports/4000_sunnet_hadisler.csv" download class="db-dl-item">
+            <span class="db-icon">📊</span>
+            <div class="db-info">
+              <strong>Hadisler Excel/CSV (.csv)</strong>
+              <span>Excel, Google E-Tablolar ve veri analizleri için</span>
+            </div>
+            <span class="dl-badge">İndir</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Tema ve Görünüm Ayarları Çekmecesi -->
   <div class="drawer-backdrop" id="settingsDrawerBackdrop">
     <div class="drawer-panel right">
       <div class="drawer-header">
@@ -235,91 +282,26 @@
         </div>
 
         <div class="setting-group">
-          <label class="setting-label">Sayfa Filtresi & Kontrast</label>
-          <div class="toggle-row">
-            <span>Yüksek Kontrast</span>
-            <input type="checkbox" id="chkContrast">
-          </div>
-          <div class="toggle-row">
-            <span>Yumuşak Göz Dinlendirici</span>
-            <input type="checkbox" id="chkEyeCare" checked>
+          <label class="setting-label">Yazı Tipi (Font)</label>
+          <div class="btn-group-2">
+            <button class="toggle-btn active" id="btnFontSerif">Merriweather (Kitap)</button>
+            <button class="toggle-btn" id="btnFontSans">Jakarta (Modern)</button>
           </div>
         </div>
 
         <div class="setting-group info-box">
           <p><strong>Peygamber Efendimizin 4000 Sünnet ve Âdâbları</strong></p>
           <p class="text-muted">Ahmed Gültekin & Nuri Dunay<br>Takriz: Ali Kara (Hocaefendi)</p>
-          <p class="text-muted" style="margin-top:6px; font-size:12px;">5 mükerrer sayfa ayıklanarak 432 kusursuz sayfa olarak hazırlanmıştır.</p>
+          <p class="text-muted" style="margin-top:6px; font-size:12px;">Dijitalleştirilmiş ve veritabanı formatına dönüştürülmüş e-kitap.</p>
         </div>
 
       </div>
     </div>
   </div>
 
-  <!-- 5. Mükerrer Sayfa Raporu Modalı -->
-  <div class="modal-backdrop" id="duplicatesModalBackdrop">
-    <div class="modal-card modal-large">
-      <div class="modal-header">
-        <h3>Mükerrer Sayfa ve Netlik Analiz Raporu</h3>
-        <button class="icon-btn" id="btnCloseDuplicates">✕</button>
-      </div>
-      <div class="modal-body duplicate-report-body">
-        <p class="report-intro">Kitabın 437 sayfalık ham çekiminde <strong>5 mükerrer sayfa grubu</strong> tespit edilmiş, yapay zeka destekli <em>Laplacian Varyans Keskinlik Skoru</em> ile en net çekimler seçilmiş ve kusurlu olanlar ayıklanarak <strong>432 sayfalık temiz e-kitap</strong> oluşturulmuştur:</p>
-        
-        <div class="duplicate-table-wrapper">
-          <table class="duplicate-table">
-            <thead>
-              <tr>
-                <th>Grup</th>
-                <th>Karşılaştırma</th>
-                <th>Kitap S.</th>
-                <th>Netlik Puanı (Laplacian)</th>
-                <th>Karar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>1</strong></td>
-                <td>PDF 250 vs 253</td>
-                <td>Sayfa 253</td>
-                <td><strong>Sayfa 250:</strong> 5481.8<br>Sayfa 253: 5094.9</td>
-                <td><span class="badge-keep">Sayfa 250 Seçildi</span><br><span class="badge-drop">253 Elendi</span></td>
-              </tr>
-              <tr>
-                <td><strong>2</strong></td>
-                <td>PDF 344 vs 345</td>
-                <td>Sayfa 339</td>
-                <td>Sayfa 344: 2822.8 (Bulanık)<br><strong>Sayfa 345:</strong> 6133.5 (Çok Net)</td>
-                <td><span class="badge-keep">Sayfa 345 Seçildi (2x Keskin)</span><br><span class="badge-drop">344 Elendi</span></td>
-              </tr>
-              <tr>
-                <td><strong>3</strong></td>
-                <td>PDF 363 vs 364</td>
-                <td>Sayfa 357</td>
-                <td><strong>Sayfa 363:</strong> 4608.0<br>Sayfa 364: 4345.6</td>
-                <td><span class="badge-keep">Sayfa 363 Seçildi</span><br><span class="badge-drop">364 Elendi</span></td>
-              </tr>
-              <tr>
-                <td><strong>4</strong></td>
-                <td>PDF 383 vs 384</td>
-                <td>Sayfa 375</td>
-                <td>Sayfa 383: 4350.0<br><strong>Sayfa 384:</strong> 5187.1</td>
-                <td><span class="badge-keep">Sayfa 384 Seçildi</span><br><span class="badge-drop">383 Elendi</span></td>
-              </tr>
-              <tr>
-                <td><strong>5</strong></td>
-                <td>PDF 417 vs 418</td>
-                <td>Sayfa 407</td>
-                <td>Sayfa 417: 1407.5 (Titrek/Bulanık)<br><strong>Sayfa 418:</strong> 5497.3 (Yüksek Netlik)</td>
-                <td><span class="badge-keep">Sayfa 418 Seçildi (4x Net)</span><br><span class="badge-drop">417 Elendi</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="toastNotification" class="toast-notification">Hadis panoya kopyalandı!</div>
 
+  <script src="digital_database.js"></script>
   <script src="book_database.js"></script>
   <script src="app.js"></script>
 </body>
