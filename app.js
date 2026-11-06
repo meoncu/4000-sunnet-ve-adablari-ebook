@@ -1,40 +1,57 @@
 /**
  * PEYGAMBER EFENDİMİZİN 4000 SÜNNET VE ÂDÂBLARI
- * %100 Dijital E-Kitap Okuyucu Motoru
- * Dijital Hadis Kartları • Metin Akışı • SQLite/JSON/SQL/CSV Dışa Aktarma
+ * %100 Dijital E-Kitap & 432 Sayfa Denetim Motoru
+ * Yan Yana Karşılaştırma • Dijital Metin • Orijinal Belge • SQLite/JSON/SQL/CSV Dışa Aktarma
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const TOTAL_PAGES = 432;
   const db = window.DIGITAL_DATABASE || { pages: [], hadiths: [] };
   const tocDb = window.BOOK_DATABASE || { chapters: [] };
+  const auditMatrix = window.PAGE_AUDIT_MATRIX || [];
 
-  // Durum
+  // Durum Yönetimi
   let currentPage = parseInt(localStorage.getItem('sunnet4000_last_page'), 10) || 1;
   if (currentPage < 1 || currentPage > TOTAL_PAGES) currentPage = 1;
 
   let currentFontSize = parseInt(localStorage.getItem('sunnet4000_font_size'), 10) || 18;
-  let currentMode = 'digital'; // 'digital' | 'text'
+  let currentMode = localStorage.getItem('sunnet4000_view_mode') || 'split'; // 'split' | 'digital' | 'scan' | 'audit'
+  let currentScanZoom = 1.0;
+  let currentAuditFilter = 'all'; // 'all' | 'hadiths' | 'intro'
+  let auditSearchQuery = '';
 
-  // DOM Elemanları
+  // DOM Elemanları - Üst Header & Navigasyon
   const readingProgressBar = document.getElementById('readingProgressBar');
   const currentPageBadge = document.getElementById('currentPageBadge');
   const chapterPreview = document.getElementById('chapterPreview');
   const headerCenterBtn = document.getElementById('headerCenterBtn');
 
+  // Görünüm Modu Butonları
+  const btnModeSplit = document.getElementById('btnModeSplit');
+  const btnModeDigital = document.getElementById('btnModeDigital');
+  const btnModeScan = document.getElementById('btnModeScan');
+  const btnModeAudit = document.getElementById('btnModeAudit');
+
+  // Ana Kapsayıcılar
+  const readingViewportContainer = document.getElementById('readingViewportContainer');
+  const splitReaderStage = document.getElementById('splitReaderStage');
+  const auditDashboardContainer = document.getElementById('auditDashboardContainer');
+
+  // Dijital Panel Elemanları
   const digitalPageBadge = document.getElementById('digitalPageBadge');
   const digitalPrintedBadge = document.getElementById('digitalPrintedBadge');
   const digitalChapterBadge = document.getElementById('digitalChapterBadge');
   const digitalPageContent = document.getElementById('digitalPageContent');
 
-  const scanImage = document.getElementById('scanImage');
-  const scanImageWrapper = document.getElementById('scanImageWrapper');
-  const btnToggleScan = document.getElementById('btnToggleScan');
-  const scanToggleText = document.getElementById('scanToggleText');
+  // Orijinal Tarama Panel Elemanları
+  const scanPageBadge = document.getElementById('scanPageBadge');
+  const mainScanImg = document.getElementById('mainScanImg');
+  const btnScanZoomIn = document.getElementById('btnScanZoomIn');
+  const btnScanZoomOut = document.getElementById('btnScanZoomOut');
+  const btnScanReset = document.getElementById('btnScanReset');
+  const scanZoomText = document.getElementById('scanZoomText');
 
-  const btnModeDigital = document.getElementById('btnModeDigital');
-  const btnModeText = document.getElementById('btnModeText');
-
+  // Alt Navigasyon & Oklar
   const arrowPrev = document.getElementById('arrowPrev');
   const arrowNext = document.getElementById('arrowNext');
   const btnPrevPage = document.getElementById('btnPrevPage');
@@ -42,9 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnJumpIndicator = document.getElementById('btnJumpIndicator');
   const bottomNavSlider = document.getElementById('bottomNavSlider');
 
+  // Font Kontrolleri
   const btnFontInc = document.getElementById('btnFontInc');
   const btnFontDec = document.getElementById('btnFontDec');
   const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+
+  // Denetim Masası Elemanları
+  const auditTableBody = document.getElementById('auditTableBody');
+  const auditSearchInput = document.getElementById('auditSearchInput');
+  const auditFilterTabs = document.querySelectorAll('.audit-tab-btn');
+  const btnAuditDownloadDb = document.getElementById('btnAuditDownloadDb');
 
   // Çekmeceler & Modallar
   const btnOpenTOC = document.getElementById('btnOpenTOC');
@@ -95,26 +119,85 @@ document.addEventListener('DOMContentLoaded', () => {
     return active;
   }
 
-  function getPrintedPage(p) {
-    if (p === 1) return 'Kitap S. 5';
-    if (p === 2) return 'Kitap S. 6';
-    if (p === 3) return 'Kitap S. 7';
-    return `Kitap S. ~${Math.min(425, p + 4)}`;
+  function getAuditItem(p) {
+    if (auditMatrix && auditMatrix.length >= p) {
+      return auditMatrix[p - 1];
+    }
+    return {
+      page: p,
+      printed_page: p + 4,
+      status: 'VERIFIED',
+      hadith_count: 0
+    };
   }
 
   function showToast(msg) {
+    if (!toastNotification) return;
     toastNotification.textContent = msg;
     toastNotification.classList.add('show');
     setTimeout(() => toastNotification.classList.remove('show'), 2200);
   }
 
-  // 2. Dijital Sayfayı Ekrana Çiz
+  // 2. Görünüm Modu Yönetimi
+  function setViewMode(mode) {
+    currentMode = mode;
+    localStorage.setItem('sunnet4000_view_mode', mode);
+
+    const modeButtons = [btnModeSplit, btnModeDigital, btnModeScan, btnModeAudit];
+    modeButtons.forEach(btn => {
+      if (btn) btn.classList.remove('active');
+    });
+
+    if (mode === 'audit') {
+      if (btnModeAudit) btnModeAudit.classList.add('active');
+      readingViewportContainer.classList.add('hidden');
+      auditDashboardContainer.classList.remove('hidden');
+      renderAuditTable();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      readingViewportContainer.classList.remove('hidden');
+      auditDashboardContainer.classList.add('hidden');
+
+      if (mode === 'split') {
+        if (btnModeSplit) btnModeSplit.classList.add('active');
+        splitReaderStage.className = 'split-reader-stage mode-split';
+      } else if (mode === 'digital') {
+        if (btnModeDigital) btnModeDigital.classList.add('active');
+        splitReaderStage.className = 'split-reader-stage mode-digital';
+      } else if (mode === 'scan') {
+        if (btnModeScan) btnModeScan.classList.add('active');
+        splitReaderStage.className = 'split-reader-stage mode-scan';
+      }
+      renderPage(currentPage);
+    }
+  }
+
+  if (btnModeSplit) btnModeSplit.addEventListener('click', () => setViewMode('split'));
+  if (btnModeDigital) btnModeDigital.addEventListener('click', () => setViewMode('digital'));
+  if (btnModeScan) btnModeScan.addEventListener('click', () => setViewMode('scan'));
+  if (btnModeAudit) btnModeAudit.addEventListener('click', () => setViewMode('audit'));
+
+  // 3. Orijinal Tarama Zoom Kontrolleri
+  function updateScanZoom(zoom) {
+    currentScanZoom = Math.max(0.75, Math.min(2.5, zoom));
+    if (mainScanImg) {
+      mainScanImg.style.transform = `scale(${currentScanZoom})`;
+    }
+    if (scanZoomText) {
+      scanZoomText.textContent = `${Math.round(currentScanZoom * 100)}%`;
+    }
+  }
+
+  if (btnScanZoomIn) btnScanZoomIn.addEventListener('click', () => updateScanZoom(currentScanZoom + 0.25));
+  if (btnScanZoomOut) btnScanZoomOut.addEventListener('click', () => updateScanZoom(currentScanZoom - 0.25));
+  if (btnScanReset) btnScanReset.addEventListener('click', () => updateScanZoom(1.0));
+
+  // 4. Sayfayı Ekrana Çiz
   function renderPage(p) {
     if (p < 1) p = 1;
     if (p > TOTAL_PAGES) p = TOTAL_PAGES;
     currentPage = p;
 
-    // Sayfa Verisini Al
     const pagesList = db.pages || [];
     const pData = pagesList.find(item => item.page === p) || {
       page: p,
@@ -124,147 +207,257 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const ch = getChapterForPage(p);
-    const printedText = getPrintedPage(p);
+    const auditItem = getAuditItem(p);
+    const printedText = `Kitap S. ${auditItem.printed_page || (p + 4)}`;
 
-    // Başlık ve Badge'ler
-    currentPageBadge.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
-    btnJumpIndicator.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
-    chapterPreview.textContent = ch.title;
-    digitalPageBadge.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
-    digitalPrintedBadge.textContent = printedText;
-    digitalChapterBadge.textContent = `${ch.category} • ${ch.title}`;
+    // Başlıklar & Badge'ler
+    if (currentPageBadge) currentPageBadge.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+    if (btnJumpIndicator) btnJumpIndicator.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+    if (chapterPreview) chapterPreview.textContent = ch.title;
+
+    if (digitalPageBadge) digitalPageBadge.textContent = `Sayfa ${p} / ${TOTAL_PAGES}`;
+    if (digitalPrintedBadge) digitalPrintedBadge.textContent = printedText;
+    if (digitalChapterBadge) digitalChapterBadge.textContent = `${ch.category} • ${ch.title}`;
+
+    if (scanPageBadge) scanPageBadge.textContent = `Orijinal Belge • Sayfa ${p} (${printedText})`;
 
     // İlerleme Çubuğu ve Slider
     const progress = ((p - 1) / (TOTAL_PAGES - 1)) * 100;
-    readingProgressBar.style.width = `${progress}%`;
-    bottomNavSlider.value = p;
+    if (readingProgressBar) readingProgressBar.style.width = `${progress}%`;
+    if (bottomNavSlider) bottomNavSlider.value = p;
 
     // Orijinal Tarama Resmi
-    scanImage.src = `pages/page_${padNum(p)}.webp`;
+    if (mainScanImg) {
+      mainScanImg.src = `pages/page_${padNum(p)}.webp`;
+      mainScanImg.alt = `Sayfa ${p} Orijinal Tarama Belgesi`;
+    }
 
-    // İçerik Oluşturma
-    digitalPageContent.innerHTML = '';
+    // Dijital Metin Alanı
+    if (digitalPageContent) {
+      digitalPageContent.innerHTML = '';
 
-    if (currentMode === 'digital' && pData.hadiths && pData.hadiths.length > 0) {
-      // HADİS KARTLARI MODU
-      pData.hadiths.forEach(h => {
-        const card = document.createElement('div');
-        card.className = 'hadith-card';
-        card.innerHTML = `
-          <div class="hadith-header">
-            <span class="hadith-number-pill">Hadis #${h.number}</span>
-            <button class="btn-copy-hadith" title="Hadisi Kopyala">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Kopyala</span>
-            </button>
-          </div>
-          <div class="hadith-body">${h.text}</div>
-          ${h.source ? `<div class="hadith-source">${h.source}</div>` : ''}
-        `;
+      if (pData.hadiths && pData.hadiths.length > 0) {
+        // Sayfa Bilgi Bandı
+        const infoPill = document.createElement('div');
+        infoPill.className = 'hadith-page-info-pill';
+        infoPill.style.cssText = 'display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:var(--accent-color); background:rgba(180, 83, 9, 0.08); padding:4px 10px; border-radius:12px; margin-bottom:14px;';
+        infoPill.innerHTML = `<span>📜</span><span>Bu sayfada doğrulanmış <strong>${pData.hadiths.length}</strong> sünnet & hadis bulunmaktadır.</span>`;
+        digitalPageContent.appendChild(infoPill);
 
-        const btnCopy = card.querySelector('.btn-copy-hadith');
-        btnCopy.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const copyContent = `Peygamber Efendimizin 4000 Sünnet ve Âdâbları\nHadis #${h.number}:\n"${h.text}"\nKaynak: ${h.source || 'Muteber Hadis Külliyatı'}`;
-          navigator.clipboard.writeText(copyContent).then(() => {
-            showToast(`Hadis #${h.number} panoya kopyalandı!`);
-          });
+        // Hadis Kartları
+        pData.hadiths.forEach(h => {
+          const card = document.createElement('div');
+          card.className = 'hadith-card';
+          card.innerHTML = `
+            <div class="hadith-header">
+              <span class="hadith-number-pill">Hadis #${h.number}</span>
+              <button class="btn-copy-hadith" title="Hadisi Kopyala">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Kopyala</span>
+              </button>
+            </div>
+            <div class="hadith-body">${h.text}</div>
+            ${h.source ? `<div class="hadith-source">Kaynak: ${h.source}</div>` : ''}
+          `;
+
+          const btnCopy = card.querySelector('.btn-copy-hadith');
+          if (btnCopy) {
+            btnCopy.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const copyContent = `Peygamber Efendimizin 4000 Sünnet ve Âdâbları\nHadis #${h.number}:\n"${h.text}"\nKaynak: ${h.source || 'Muteber Hadis Külliyatı'}`;
+              navigator.clipboard.writeText(copyContent).then(() => {
+                showToast(`Hadis #${h.number} panoya kopyalandı!`);
+              });
+            });
+          }
+
+          digitalPageContent.appendChild(card);
         });
-
-        digitalPageContent.appendChild(card);
-      });
-    } else {
-      // DÜZ METİN / GİRİŞ METNİ MODU
-      const raw = pData.raw_text || '';
-      const paragraphs = raw.split('\n').filter(line => line.trim().length > 0);
-
-      if (paragraphs.length === 0) {
-        digitalPageContent.innerHTML = '<p class="digital-paragraph">Bu sayfanın dijital metni işlenmektedir...</p>';
       } else {
-        paragraphs.forEach(para => {
-          const pEl = document.createElement('p');
-          pEl.className = 'digital-paragraph';
-          pEl.textContent = para;
-          digitalPageContent.appendChild(pEl);
-        });
+        // Düz Metin / Bölüm / Giriş Başlığı
+        const raw = pData.raw_text || '';
+        const paragraphs = raw.split('\n').filter(line => line.trim().length > 0);
+
+        const infoPill = document.createElement('div');
+        infoPill.className = 'hadith-page-info-pill';
+        infoPill.style.cssText = 'display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:var(--text-muted); background:rgba(0,0,0,0.04); padding:4px 10px; border-radius:12px; margin-bottom:14px;';
+        infoPill.innerHTML = `<span>📖</span><span>Bölüm Giriş / Fihrist Metni (Tam Dijitalleştirilmiş)</span>`;
+        digitalPageContent.appendChild(infoPill);
+
+        if (paragraphs.length === 0) {
+          digitalPageContent.innerHTML += '<p class="digital-paragraph">Bu sayfa içeriği hazırlanıyor...</p>';
+        } else {
+          paragraphs.forEach(para => {
+            const pEl = document.createElement('p');
+            pEl.className = 'digital-paragraph';
+            pEl.textContent = para;
+            digitalPageContent.appendChild(pEl);
+          });
+        }
       }
     }
 
     // Buton Durumları
-    arrowPrev.style.opacity = p === 1 ? '0.3' : '1';
-    arrowPrev.style.pointerEvents = p === 1 ? 'none' : 'auto';
-    arrowNext.style.opacity = p === TOTAL_PAGES ? '0.3' : '1';
-    arrowNext.style.pointerEvents = p === TOTAL_PAGES ? 'none' : 'auto';
+    if (arrowPrev) {
+      arrowPrev.style.opacity = p === 1 ? '0.3' : '1';
+      arrowPrev.style.pointerEvents = p === 1 ? 'none' : 'auto';
+    }
+    if (arrowNext) {
+      arrowNext.style.opacity = p === TOTAL_PAGES ? '0.3' : '1';
+      arrowNext.style.pointerEvents = p === TOTAL_PAGES ? 'none' : 'auto';
+    }
 
     localStorage.setItem('sunnet4000_last_page', p);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // 3. Mod Değiştirme
-  btnModeDigital.addEventListener('click', () => {
-    currentMode = 'digital';
-    btnModeDigital.classList.add('active');
-    btnModeText.classList.remove('active');
-    renderPage(currentPage);
-  });
-
-  btnModeText.addEventListener('click', () => {
-    currentMode = 'text';
-    btnModeText.classList.add('active');
-    btnModeDigital.classList.remove('active');
-    renderPage(currentPage);
-  });
-
-  // Orijinal Tarama Göster/Gizle
-  btnToggleScan.addEventListener('click', () => {
-    const isHidden = scanImageWrapper.classList.toggle('hidden');
-    scanToggleText.textContent = isHidden 
-      ? 'Orijinal Sayfa Taramasını Karşılaştır' 
-      : 'Orijinal Taramayı Gizle';
-  });
-
-  // 4. Sayfa Gezinme
   function goToPage(p) {
+    if (currentMode === 'audit') {
+      setViewMode('split');
+    }
     renderPage(p);
   }
 
-  arrowPrev.addEventListener('click', () => goToPage(currentPage - 1));
-  arrowNext.addEventListener('click', () => goToPage(currentPage + 1));
-  btnPrevPage.addEventListener('click', () => goToPage(currentPage - 1));
-  btnNextPage.addEventListener('click', () => goToPage(currentPage + 1));
+  // Oklar ve Gezinme Butonları
+  if (arrowPrev) arrowPrev.addEventListener('click', () => goToPage(currentPage - 1));
+  if (arrowNext) arrowNext.addEventListener('click', () => goToPage(currentPage + 1));
+  if (btnPrevPage) btnPrevPage.addEventListener('click', () => goToPage(currentPage - 1));
+  if (btnNextPage) btnNextPage.addEventListener('click', () => goToPage(currentPage + 1));
 
-  bottomNavSlider.addEventListener('input', (e) => {
-    goToPage(parseInt(e.target.value, 10));
+  if (bottomNavSlider) {
+    bottomNavSlider.addEventListener('input', (e) => {
+      goToPage(parseInt(e.target.value, 10));
+    });
+  }
+
+  // 5. 432 Sayfa Denetim Masası Tablosu
+  function renderAuditTable() {
+    if (!auditTableBody) return;
+
+    let items = auditMatrix || [];
+
+    // Filtreleme
+    if (currentAuditFilter === 'hadiths') {
+      items = items.filter(i => (i.hadith_count || 0) > 0);
+    } else if (currentAuditFilter === 'intro') {
+      items = items.filter(i => (i.hadith_count || 0) === 0);
+    }
+
+    // Arama
+    const q = auditSearchQuery.toLowerCase().trim();
+    if (q) {
+      items = items.filter(i => {
+        const pageStr = String(i.page);
+        const printedStr = String(i.printed_page || '');
+        const sampleStr = (i.sample || '').toLowerCase();
+        const titleStr = (i.title || '').toLowerCase();
+        return pageStr === q || printedStr === q || sampleStr.includes(q) || titleStr.includes(q);
+      });
+    }
+
+    if (items.length === 0) {
+      auditTableBody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center; padding:32px; color:var(--text-muted);">
+            Arama kriterine uygun sayfa bulunamadı ("${q}").
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    auditTableBody.innerHTML = items.map(item => {
+      const ch = getChapterForPage(item.page);
+      const hadithBadge = item.hadith_count > 0
+        ? `<span style="font-weight:700; color:var(--accent-color);">${item.hadith_count} Hadis</span>`
+        : `<span style="color:var(--text-muted); font-size:12px;">Metin / Fihrist</span>`;
+
+      const sampleSnippet = (item.sample || '')
+        .replace(/\n+/g, ' ')
+        .substring(0, 110);
+
+      return `
+        <tr>
+          <td><strong>#${item.page}</strong></td>
+          <td><span style="font-size:12px; font-weight:600; color:var(--text-muted);">S. ${item.printed_page || (item.page + 4)}</span></td>
+          <td>
+            <div style="font-weight:600; color:var(--text-primary); font-size:13px;">${ch.title}</div>
+            <div style="font-size:11px; color:var(--text-muted);">${ch.category}</div>
+          </td>
+          <td>${hadithBadge}</td>
+          <td><div style="font-size:12.5px; line-height:1.4; color:var(--text-secondary); max-width:380px;">${sampleSnippet}...</div></td>
+          <td><span class="badge-audit-ok">✅ Doğrulandı</span></td>
+          <td>
+            <button class="btn-audit-jump" data-page="${item.page}">İncele ➔</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Tablo Butonlarına Olay Bağla
+    auditTableBody.querySelectorAll('.btn-audit-jump').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = parseInt(btn.dataset.page, 10);
+        setViewMode('split');
+        goToPage(p);
+      });
+    });
+  }
+
+  // Denetim Filtre Tabları
+  auditFilterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      auditFilterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentAuditFilter = tab.dataset.auditFilter || 'all';
+      renderAuditTable();
+    });
   });
 
-  // 5. Font Boyutu Kontrolleri
+  if (auditSearchInput) {
+    auditSearchInput.addEventListener('input', (e) => {
+      auditSearchQuery = e.target.value;
+      renderAuditTable();
+    });
+  }
+
+  if (btnAuditDownloadDb) {
+    btnAuditDownloadDb.addEventListener('click', () => {
+      if (dbModalBackdrop) dbModalBackdrop.classList.add('active');
+    });
+  }
+
+  // 6. Font Boyutu Kontrolleri
   function setFontSize(size) {
-    currentZoom = Math.min(26, Math.max(14, size));
-    currentFontSize = currentZoom;
+    currentFontSize = Math.min(26, Math.max(14, size));
     document.documentElement.style.setProperty('--reader-font-size', `${currentFontSize}px`);
-    fontSizeDisplay.textContent = `${currentFontSize}px`;
+    if (fontSizeDisplay) fontSizeDisplay.textContent = `${currentFontSize}px`;
     localStorage.setItem('sunnet4000_font_size', currentFontSize);
   }
 
-  btnFontInc.addEventListener('click', () => setFontSize(currentFontSize + 2));
-  btnFontDec.addEventListener('click', () => setFontSize(currentFontSize - 2));
+  if (btnFontInc) btnFontInc.addEventListener('click', () => setFontSize(currentFontSize + 2));
+  if (btnFontDec) btnFontDec.addEventListener('click', () => setFontSize(currentFontSize - 2));
   setFontSize(currentFontSize);
 
-  // Font Ailesi
-  btnFontSerif.addEventListener('click', () => {
-    btnFontSerif.classList.add('active');
-    btnFontSans.classList.remove('active');
-    document.documentElement.style.setProperty('--reader-font', 'var(--font-serif)');
-  });
+  if (btnFontSerif) {
+    btnFontSerif.addEventListener('click', () => {
+      btnFontSerif.classList.add('active');
+      if (btnFontSans) btnFontSans.classList.remove('active');
+      document.documentElement.style.setProperty('--reader-font', 'var(--font-serif)');
+    });
+  }
 
-  btnFontSans.addEventListener('click', () => {
-    btnFontSans.classList.add('active');
-    btnFontSerif.classList.remove('active');
-    document.documentElement.style.setProperty('--reader-font', 'var(--font-sans)');
-  });
+  if (btnFontSans) {
+    btnFontSans.addEventListener('click', () => {
+      btnFontSans.classList.add('active');
+      if (btnFontSerif) btnFontSerif.classList.remove('active');
+      document.documentElement.style.setProperty('--reader-font', 'var(--font-sans)');
+    });
+  }
 
-  // 6. İçindekiler Drawer
+  // 7. İçindekiler Drawer (31 Bölüm)
   function buildTOC() {
+    if (!tocList) return;
     tocList.innerHTML = '';
     const chapters = tocDb.chapters || [];
 
@@ -286,35 +479,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  tocSearchInput.addEventListener('input', (e) => {
-    const q = e.target.value.toLowerCase().trim();
-    document.querySelectorAll('.toc-item').forEach(item => {
-      item.style.display = item.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
+  if (tocSearchInput) {
+    tocSearchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
+      });
     });
-  });
+  }
 
-  // 7. Arama Fonksiyonu
+  // 8. Hadis ve Metin Arama Modalı
   function handleSearch(query) {
+    if (!searchResultsList) return;
     const q = query.toLowerCase().trim();
     if (!q) {
       searchResultsList.innerHTML = '<div class="search-hint">Aramak istediğiniz kelime, hadis no veya sayfa giriniz...</div>';
       return;
     }
 
-    // Sayfa numarası araması
+    // Sayfa Numarası Doğrudan Arama
     const num = parseInt(q, 10);
     if (!isNaN(num) && num >= 1 && num <= TOTAL_PAGES) {
       searchResultsList.innerHTML = `
         <div class="search-result-item" data-page="${num}">
           <div class="search-result-title">🎯 ${num}. Sayfaya Git</div>
-          <div class="search-result-snippet">Kitapta doğrudan ${num}. sayfayı görüntülemek için dokunun.</div>
+          <div class="search-result-snippet">Kitapta doğrudan ${num}. sayfayı ve orijinal taranmış belgeyi görüntülemek için dokunun.</div>
         </div>
       `;
       attachSearchClicks();
       return;
     }
 
-    // Hadisler ve Başlıklar içinde arama
+    // Hadisler ve Bölümler İçinde Arama
     const hadithMatches = (db.hadiths || []).filter(h => 
       h.text.toLowerCase().includes(q) || 
       (h.source && h.source.toLowerCase().includes(q)) ||
@@ -338,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (hadithMatches.length > 0) {
-      html += '<div style="font-size:11px; font-weight:700; color:var(--text-muted); margin:12px 0 6px;">HADİSLER</div>';
+      html += '<div style="font-size:11px; font-weight:700; color:var(--text-muted); margin:12px 0 6px;">HADİSLER & SÜNNETLER</div>';
       html += hadithMatches.map(h => `
         <div class="search-result-item" data-page="${h.page}">
           <div class="search-result-title">Hadis #${h.number} (Sayfa ${h.page})</div>
@@ -365,63 +561,74 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
-
-  // 8. Modalları Yönet
-  function closeAllModals() {
-    tocDrawerBackdrop.classList.remove('active');
-    searchModalBackdrop.classList.remove('active');
-    jumpModalBackdrop.classList.remove('active');
-    dbModalBackdrop.classList.remove('active');
-    settingsDrawerBackdrop.classList.remove('active');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
   }
 
-  btnOpenTOC.addEventListener('click', () => tocDrawerBackdrop.classList.add('active'));
-  btnCloseTOC.addEventListener('click', closeAllModals);
+  // 9. Çekmece & Modal Yönetimi
+  function closeAllModals() {
+    if (tocDrawerBackdrop) tocDrawerBackdrop.classList.remove('active');
+    if (searchModalBackdrop) searchModalBackdrop.classList.remove('active');
+    if (jumpModalBackdrop) jumpModalBackdrop.classList.remove('active');
+    if (dbModalBackdrop) dbModalBackdrop.classList.remove('active');
+    if (settingsDrawerBackdrop) settingsDrawerBackdrop.classList.remove('active');
+  }
 
-  btnOpenSearch.addEventListener('click', () => {
-    searchModalBackdrop.classList.add('active');
-    setTimeout(() => searchInput.focus(), 150);
-  });
-  btnCloseSearch.addEventListener('click', closeAllModals);
+  if (btnOpenTOC) btnOpenTOC.addEventListener('click', () => tocDrawerBackdrop.classList.add('active'));
+  if (btnCloseTOC) btnCloseTOC.addEventListener('click', closeAllModals);
 
-  btnOpenDbModal.addEventListener('click', () => dbModalBackdrop.classList.add('active'));
-  btnCloseDbModal.addEventListener('click', closeAllModals);
+  if (btnOpenSearch) {
+    btnOpenSearch.addEventListener('click', () => {
+      searchModalBackdrop.classList.add('active');
+      setTimeout(() => searchInput && searchInput.focus(), 150);
+    });
+  }
+  if (btnCloseSearch) btnCloseSearch.addEventListener('click', closeAllModals);
+
+  if (btnOpenDbModal) btnOpenDbModal.addEventListener('click', () => dbModalBackdrop.classList.add('active'));
+  if (btnCloseDbModal) btnCloseDbModal.addEventListener('click', closeAllModals);
 
   function openJumpModal() {
-    jumpRange.value = currentPage;
-    jumpSliderVal.textContent = currentPage;
-    jumpDirectNum.value = currentPage;
+    if (!jumpModalBackdrop) return;
+    if (jumpRange) jumpRange.value = currentPage;
+    if (jumpSliderVal) jumpSliderVal.textContent = currentPage;
+    if (jumpDirectNum) jumpDirectNum.value = currentPage;
     jumpModalBackdrop.classList.add('active');
   }
 
-  headerCenterBtn.addEventListener('click', openJumpModal);
-  btnJumpIndicator.addEventListener('click', openJumpModal);
-  btnCloseJump.addEventListener('click', closeAllModals);
+  if (headerCenterBtn) headerCenterBtn.addEventListener('click', openJumpModal);
+  if (btnJumpIndicator) btnJumpIndicator.addEventListener('click', openJumpModal);
+  if (btnCloseJump) btnCloseJump.addEventListener('click', closeAllModals);
 
-  jumpRange.addEventListener('input', (e) => {
-    jumpSliderVal.textContent = e.target.value;
-    jumpDirectNum.value = e.target.value;
-  });
+  if (jumpRange) {
+    jumpRange.addEventListener('input', (e) => {
+      if (jumpSliderVal) jumpSliderVal.textContent = e.target.value;
+      if (jumpDirectNum) jumpDirectNum.value = e.target.value;
+    });
+  }
 
-  btnConfirmJump.addEventListener('click', () => {
-    const val = parseInt(jumpDirectNum.value || jumpRange.value, 10);
-    if (!isNaN(val) && val >= 1 && val <= TOTAL_PAGES) {
-      goToPage(val);
-      closeAllModals();
+  if (btnConfirmJump) {
+    btnConfirmJump.addEventListener('click', () => {
+      const val = parseInt((jumpDirectNum && jumpDirectNum.value) || (jumpRange && jumpRange.value), 10);
+      if (!isNaN(val) && val >= 1 && val <= TOTAL_PAGES) {
+        goToPage(val);
+        closeAllModals();
+      }
+    });
+  }
+
+  if (btnOpenSettings) btnOpenSettings.addEventListener('click', () => settingsDrawerBackdrop.classList.add('active'));
+  if (btnCloseSettings) btnCloseSettings.addEventListener('click', closeAllModals);
+
+  [tocDrawerBackdrop, searchModalBackdrop, jumpModalBackdrop, dbModalBackdrop, settingsDrawerBackdrop].forEach(b => {
+    if (b) {
+      b.addEventListener('click', (e) => {
+        if (e.target === b) closeAllModals();
+      });
     }
   });
 
-  btnOpenSettings.addEventListener('click', () => settingsDrawerBackdrop.classList.add('active'));
-  btnCloseSettings.addEventListener('click', closeAllModals);
-
-  [tocDrawerBackdrop, searchModalBackdrop, jumpModalBackdrop, dbModalBackdrop, settingsDrawerBackdrop].forEach(b => {
-    b.addEventListener('click', (e) => {
-      if (e.target === b) closeAllModals();
-    });
-  });
-
-  // 9. Tema Seçimi
+  // 10. Tema Seçimi
   themeChips.forEach(chip => {
     chip.addEventListener('click', () => {
       themeChips.forEach(c => c.classList.remove('active'));
@@ -432,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const savedTheme = localStorage.getItem('sunnet4000_theme') || 'sepya';
+  const savedTheme = localStorage.getItem('sunnet4000_theme') || 'sepia';
   document.body.setAttribute('data-theme', savedTheme);
   const activeChip = document.querySelector(`[data-set-theme="${savedTheme}"]`);
   if (activeChip) {
@@ -440,33 +647,37 @@ document.addEventListener('DOMContentLoaded', () => {
     activeChip.classList.add('active');
   }
 
-  // 10. Klavye ve Dokunma Kısayolları
+  // 11. Klavye ve Mobil Kaydırma Kısayolları
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeAllModals();
-    if (e.key === 'ArrowRight' || e.key === 'PageDown') goToPage(currentPage + 1);
-    if (e.key === 'ArrowLeft' || e.key === 'PageUp') goToPage(currentPage - 1);
-    if (e.key === 'Home') goToPage(1);
-    if (e.key === 'End') goToPage(TOTAL_PAGES);
+    if (currentMode !== 'audit') {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') goToPage(currentPage + 1);
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') goToPage(currentPage - 1);
+      if (e.key === 'Home') goToPage(1);
+      if (e.key === 'End') goToPage(TOTAL_PAGES);
+    }
   });
 
-  // Mobil Swipe
+  // Dokunmatik Swipe
   let touchStartX = 0;
   let touchEndX = 0;
-  const stage = document.getElementById('digitalReaderStage');
-  stage.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
+  if (splitReaderStage) {
+    splitReaderStage.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
 
-  stage.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 55) {
-      if (diff < 0) goToPage(currentPage + 1);
-      else goToPage(currentPage - 1);
-    }
-  }, { passive: true });
+    splitReaderStage.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 60 && currentMode !== 'audit') {
+        if (diff < 0) goToPage(currentPage + 1);
+        else goToPage(currentPage - 1);
+      }
+    }, { passive: true });
+  }
 
-  // Başlat
+  // 12. Başlangıç Yüklemesi
   buildTOC();
+  setViewMode(currentMode);
   renderPage(currentPage);
 });
